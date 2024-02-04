@@ -77,14 +77,13 @@ app.get("/get", (req, res) => {
 
 
 // m
-app.get("/m", (req, res) => {
-  if (req.session.name) {
-    return res.json({ valid: true, name: req.session.name });
-  } else {
-    return res.json({ valid: false });
+app.get("/m",(req,res)=>{
+  if(req.session.name){
+      return res.json({valid:true , name:req.session.name})
+  }else{
+      return res.json({valid:false})
   }
-});
-
+})
 
 // remove id
 
@@ -100,23 +99,19 @@ app.delete("/remove/:id",(req,res)=>{
 
 // login
 
-app.post("/login", (req, res) => {
-  const sql = "SELECT * FROM login WHERE `name` = ? and password = ?";
-  db.query(sql, [req.body.name, req.body.password], (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
-
-    if (result.length > 0) {
-      req.session.name = result[0].name;
-      return res.json({ Login: true });
-    } else {
-      return res.json({ Login: false });
-    }
-  });
-});
-
+app.post("/login",(req,res)=>{
+  const sql = "SELECT * FROM login WHERE `name` = ? and password = ?"
+  db.query(sql,[req.body.name,req.body.password],(err,result)=>{
+      if(err) return res.json({Message:"error inside server"})
+      if(result.length > 0){
+          req.session.name = result[0].name;
+          // console.log(req.session.username);
+          return res.json({Login:true});
+      }else{
+          return res.json({Login:false})
+      }
+  })
+})
 
 
 
