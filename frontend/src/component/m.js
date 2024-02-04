@@ -11,7 +11,7 @@ const Welcome = ({ username }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://server-one-puce.vercel.app/get');
+      const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
       setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -20,7 +20,7 @@ const Welcome = ({ username }) => {
 
   const handleRemove = async (id) => {
     try {
-      await axios.delete(`https://server-one-puce.vercel.app/remove/${id}`);
+      await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
    
       setCvList((prevCvList) => prevCvList.filter((cv) => cv.id !== id));
     } catch (err) {
