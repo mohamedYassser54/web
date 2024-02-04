@@ -20,7 +20,7 @@ const upload = multer({ storage: storage });
 
 
 
-const db = mysql.createPool({
+const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
@@ -30,7 +30,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-
+db.connect();
 
 
 app.get("/", (req, res) => {
