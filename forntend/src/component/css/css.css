@@ -1,0 +1,23 @@
+.cv{
+    margin-top: 150px;
+}
+.form{
+    width: 300px;
+    height: 400px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+}
+.text{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.form input{
+    width: 90%;
+}
+
+.form button{
+    
+    width: 100%;
+}
