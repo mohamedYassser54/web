@@ -34,18 +34,27 @@ useEffect(() => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  try {
-    const res = await axios.post('https://server-one-puce.vercel.app/login', formData);
-
-    if (res.data.Login) {
-      alert("Data is correct");
-      navigate("/m");
+  axios.post('https://server-one-puce.vercel.app/login', formData)
+  .then(response => {
+    // Check the HTTP status code
+    if (response.status === 200) {
+      // Access the response data
+      if (response.data.Login) {
+        alert("Data is correct");
+        navigate("/m");
+      } else {
+        alert("Name or Password is incorrect");
+      }
     } else {
-      alert("Name or Password is incorrect");
+      // Handle non-200 status codes
+      console.error("Unexpected status code:", response.status);
     }
-  } catch (err) {
-    console.error("Error submitting form:", err);
-  }
+  })
+  .catch(error => {
+    // Handle errors
+    console.error("Error:", error);
+  });
+
 };
 
 
