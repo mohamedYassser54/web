@@ -9,7 +9,7 @@ const M = () => {
   
     axios.defaults.withCredentials =true;
     useEffect(()=>{
-      axios.get("http://localhost:8081/m")
+      axios.get("https://server-one-puce.vercel.app/m")
       .then((res)=>{
         if(res.data.valid){
           setName(res.data.name)
@@ -23,7 +23,7 @@ const M = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/get');
+      const response = await axios.get('https://server-one-puce.vercel.app/get');
       setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -38,7 +38,7 @@ const M = () => {
   // remove
   const handleRemove = async(id)=>{
     try{
-      await axios.delete(`http://localhost:8081/remove/${id}`)
+      await axios.delete(`https://server-one-puce.vercel.app/remove/${id}`)
       window.location.reload()
     }catch(err){
       console.log(err);
