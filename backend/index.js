@@ -8,7 +8,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser= require('body-parser');
 app.use(cors({
-  origin: ["https://server-one-puce.vercel.app/m"],
+  origin: ["https://web-beta-woad.vercel.app"],
   methods: ["POST", "GET", "DELETE", "PUT"],
   credentials: true
 }));
