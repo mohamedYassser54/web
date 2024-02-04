@@ -21,7 +21,7 @@ function Emp() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://server-one-puce.vercel.app/m', { username, password });
+      const response = await axios.post('https://server-one-puce.vercel.app/login', { username, password });
       const responseData = response.data;
 
       if (responseData.success) {
