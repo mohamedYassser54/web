@@ -9,15 +9,20 @@ const cookieParser = require('cookie-parser');
 const bodyParser= require('body-parser');
 const corsOptions = {
   origin: "https://web-beta-woad.vercel.app",
-   methods: ["POST", "GET", "DELETE", "PUT"],
-
   credentials: true,
+  methods: "GET, POST, OPTIONS", // Add other methods if necessary
+  allowedHeaders: "Content-Type",
 };
 
+
+
+
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(cors(corsOptions));
-app.options('/login', cors(corsOptions));
-
-
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -82,6 +87,9 @@ app.get("/get", (req, res) => {
 
 // m
 app.get("/m", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "https://web-beta-woad.vercel.app");
+  res.header("Access-Control-Allow-Credentials", true);
+
   if (req.session.name) {
     return res.json({ valid: true, name: req.session.name });
   } else {
@@ -105,6 +113,9 @@ app.delete("/remove/:id",(req,res)=>{
 // login
 
 app.post("/login", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "https://web-beta-woad.vercel.app");
+  res.header("Access-Control-Allow-Credentials", true);
+
   const sql = "SELECT * FROM login WHERE `name` = ? AND password = ?";
   db.query(sql, [req.body.name, req.body.password], (err, result) => {
     if (err) {
