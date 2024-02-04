@@ -20,7 +20,7 @@ function Emp() {
   axios.defaults.withCredentials =true;
 
   useEffect(()=>{
-    axios.get("http://localhost:8081/m")
+    axios.get("https://server-one-puce.vercel.app/m")
     .then((res)=>{
       if(res.data.valid){
         navigate("/m");
@@ -34,7 +34,7 @@ function Emp() {
   const handleSubmit = async (e)=>{
     e.preventDefault();
 
-    axios.post('http://localhost:8081/login',formData)
+    axios.post('https://server-one-puce.vercel.app/login',formData)
     .then(res=>{
       if(res.data.Login){
         alert("Data is correct")

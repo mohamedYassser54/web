@@ -25,7 +25,7 @@ const Cv = () => {
     formData.append('cv', cvName.cv);
   
     try {
-        const response = await axios.post('http://localhost:8081/employees', formData);
+        const response = await axios.post('https://server-one-puce.vercel.app/employees', formData);
         if (response.status === 200) {
           alert('CV has been added successfully');
           
