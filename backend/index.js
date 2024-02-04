@@ -15,6 +15,7 @@ app.use(cors({
 
 app.options('*', cors());
 
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -22,20 +23,20 @@ app.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: false,
-  cookie:{
-      secret:false,
-      maxAge:1000 * 60 * 60 * 24
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
   }
-}))
+}));
+
 const db = mysql.createPool({
-  host:process.env.DB_HOST,
-  user:process.env.DB_USERNAME,
-  password:process.env.DB_PASSWORD,
-  database:process.env.DB_DBNAME,
-  waitForConnections:true,
-  connectionLimit:10,
-  queueLimit:0
-})
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DBNAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
 
 const port = 8081;
 const storage = multer.memoryStorage();
@@ -77,13 +78,14 @@ app.get("/get", (req, res) => {
 
 
 // m
-app.get("/m",(req,res)=>{
-  if(req.session.name){
-      return res.json({valid:true , name:req.session.name})
-  }else{
-      return res.json({valid:false})
+app.get("/m", (req, res) => {
+  if (req.session.name) {
+    return res.json({ valid: true, name: req.session.name });
+  } else {
+    return res.json({ valid: false });
   }
-})
+});
+
 
 // remove id
 
@@ -99,19 +101,21 @@ app.delete("/remove/:id",(req,res)=>{
 
 // login
 
-app.post("/login",(req,res)=>{
-  const sql = "SELECT * FROM login WHERE `name` = ? and password = ?"
-  db.query(sql,[req.body.name,req.body.password],(err,result)=>{
-      if(err) return res.json({Message:"error inside server"})
-      if(result.length > 0){
-          req.session.name = result[0].name;
-          // console.log(req.session.username);
-          return res.json({Login:true});
-      }else{
-          return res.json({Login:false})
-      }
-  })
-})
+app.post("/login", (req, res) => {
+  const sql = "SELECT * FROM login WHERE `name` = ? AND password = ?";
+  db.query(sql, [req.body.name, req.body.password], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ Message: "Internal Server Error" });
+    }
+    if (result.length > 0) {
+      req.session.name = result[0].name;
+      return res.json({ Login: true });
+    } else {
+      return res.json({ Login: false });
+    }
+  });
+});
 
 
 

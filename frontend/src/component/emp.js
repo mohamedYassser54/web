@@ -33,12 +33,9 @@ useEffect(() => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-
   axios.post('https://server-one-puce.vercel.app/login', formData)
   .then(response => {
-    // Check the HTTP status code
     if (response.status === 200) {
-      // Access the response data
       if (response.data.Login) {
         alert("Data is correct");
         navigate("/m");
@@ -46,14 +43,14 @@ const handleSubmit = async (e) => {
         alert("Name or Password is incorrect");
       }
     } else {
-      // Handle non-200 status codes
       console.error("Unexpected status code:", response.status);
+      console.error("Error message from server:", response.data.Message);
     }
   })
   .catch(error => {
-    // Handle errors
     console.error("Error:", error);
   });
+
 
 };
 
