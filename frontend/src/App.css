@@ -1,0 +1,28 @@
+.App{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.flex{
+    margin-top: 100px;
+    display: flex;
+    text-align: center;
+}
+.card{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #000;
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    border-radius:20px ;
+    transition: 0.3s;
+}
+.card:hover{
+    transform: scale(1.1);
+}
