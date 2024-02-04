@@ -117,13 +117,13 @@ app.delete("/remove/:id",(req,res)=>{
   })
 })
 
-// login
-
+/// login
 app.post("/login", (req, res) => {
   res.header("Access-Control-Allow-Origin", "https://web-beta-woad.vercel.app");
   res.header("Access-Control-Allow-Credentials", true);
 
   const sql = "SELECT * FROM login WHERE `name` = ? AND password = ?";
+  
   db.query(sql, [req.body.name, req.body.password], (err, result) => {
     if (err) {
       console.error("Database error:", err);
