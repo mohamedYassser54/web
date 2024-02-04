@@ -106,7 +106,7 @@ app.post("/login", (req, res) => {
   db.query(sql, [req.body.name, req.body.password], (err, result) => {
     if (err) {
       console.error("Database error:", err);
-      return res.status(500).json({ Message: "Internal Server Error" });
+      return res.status(500).json({ Message: "error inside server" });
     }
     if (result.length > 0) {
       req.session.name = result[0].name;
@@ -115,6 +115,16 @@ app.post("/login", (req, res) => {
       return res.json({ Login: false });
     }
   });
+});
+
+db.query(sql, [req.body.name, req.body.password], (err, result) => {
+  if (err) {
+    console.error("Database error:", err);
+    console.error("SQL query:", sql);
+    console.error("Parameters:", [req.body.name, req.body.password]);
+    return res.status(500).json({ Message: "error inside server" });
+  }
+  // ... rest of the code
 });
 
 
