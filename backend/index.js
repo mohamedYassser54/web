@@ -8,7 +8,7 @@ const app = express();
 const port = 8081;
 app.use(cors()); 
 app.use(bodyParser.json());
-app.use(bodyParser.json());
+
 
 app.options('*', cors());
 
@@ -30,7 +30,7 @@ const db = mysql.createPool({
   queueLimit:0
 })
 
-db.connect();
+
 
 
 app.get("/", (req, res) => {
