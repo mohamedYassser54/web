@@ -102,8 +102,8 @@ app.delete("/remove/:id",(req,res)=>{
 
 /// login
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
+  const { name, password } = req.body;
+  db.query('SELECT * FROM `login` WHERE name = ? AND password = ?', [name, password], (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
       res.json({ success: true, message: 'Login successful' });
