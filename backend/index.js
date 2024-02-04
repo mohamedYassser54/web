@@ -8,7 +8,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser= require('body-parser');
 app.use(cors({
-  origin:["http://localhost:3000"],
+  origin:["https://web-beta-woad.vercel.app"],
   methods:["POST","GET","DELETE","PUT"],
   credentials:true
 }));
@@ -26,12 +26,15 @@ app.use(session({
       maxAge:1000 * 60 * 60 * 24
   }
 }))
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "work"
-});
+const db = mysql.createPool({
+  host:process.env.DB_HOST,
+  user:process.env.DB_USERNAME,
+  password:process.env.DB_PASSWORD,
+  database:process.env.DB_DBNAME,
+  waitForConnections:true,
+  connectionLimit:10,
+  queueLimit:0
+})
 
 const port = 8081;
 const storage = multer.memoryStorage();
