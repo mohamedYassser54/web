@@ -1,40 +1,24 @@
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
 const multer = require('multer');
-const session = require('express-session');
 
-const cookieParser = require('cookie-parser');
-const bodyParser= require('body-parser');
-const corsOptions = {
-  origin: "https://web-beta-woad.vercel.app",
-  credentials: true,
-  methods: "GET, POST, OPTIONS", // Add other methods if necessary
-  allowedHeaders: "Content-Type",
-};
+const app = express();
+const port = 8081;
+app.use(cors()); 
+app.use(bodyParser.json());
+app.use(bodyParser.json());
 
-
-
-
+app.options('*', cors());
 
 app.use(express.json());
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(session({
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24
-  }
-}));
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
 
 const db = mysql.createPool({
   host: process.env.DB_HOST,
@@ -46,9 +30,8 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-const port = 8081;
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+
+
 
 app.get("/", (req, res) => {
   return res.json("backend");
@@ -86,21 +69,21 @@ app.get("/get", (req, res) => {
 
 
 // m
-app.get("/m", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://web-beta-woad.vercel.app");
-  res.header("Access-Control-Allow-Credentials", true);
+// app.get("/m", (req, res) => {
+//   res.header("Access-Control-Allow-Origin", "https://web-beta-woad.vercel.app");
+//   res.header("Access-Control-Allow-Credentials", true);
 
-  try {
-    if (req.session.name) {
-      return res.json({ valid: true, name: req.session.name });
-    } else {
-      return res.json({ valid: false });
-    }
-  } catch (error) {
-    console.error("Error in /m route:", error);
-    return res.status(500).json({ Message: "Internal Server Error" });
-  }
-});
+//   try {
+//     if (req.session.name) {
+//       return res.json({ valid: true, name: req.session.name });
+//     } else {
+//       return res.json({ valid: false });
+//     }
+//   } catch (error) {
+//     console.error("Error in /m route:", error);
+//     return res.status(500).json({ Message: "Internal Server Error" });
+//   }
+// });
 
 
 
@@ -118,34 +101,16 @@ app.delete("/remove/:id",(req,res)=>{
 })
 
 /// login
-app.post("/login", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://web-beta-woad.vercel.app");
-  res.header("Access-Control-Allow-Credentials", true);
-
-  const sql = "SELECT * FROM login WHERE `name` = ? AND password = ?";
-  
-  db.query(sql, [req.body.name, req.body.password], (err, result) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ Message: "error inside server" });
-    }
-    if (result.length > 0) {
-      req.session.name = result[0].name;
-      return res.json({ Login: true });
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
+    if (err) throw err;
+    if (results.length > 0) {
+      res.json({ success: true, message: 'Login successful' });
     } else {
-      return res.json({ Login: false });
+      res.json({ success: false, message: 'Invalid credentials' });
     }
   });
-});
-
-db.query(sql, [req.body.name, req.body.password], (err, result) => {
-  if (err) {
-    console.error("Database error:", err);
-    console.error("SQL query:", sql);
-    console.error("Parameters:", [req.body.name, req.body.password]);
-    return res.status(500).json({ Message: "error inside server" });
-  }
-  // ... rest of the code
 });
 
 

@@ -1,81 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import style from './css/emp.module.css'
-const M = () => {
-
-    const navigate = useNavigate();
-    const [name ,setName] = useState('');
+import './css/css.css';
+const Cv = () => {
+  const [cvName, setCvName] = useState({
+    name: '',
+    cv: null, 
+  });
+   
   
-    axios.defaults.withCredentials =true;
-    useEffect(()=>{
-      axios.get("https://server-one-puce.vercel.app/m")
-      .then((res)=>{
-        if(res.data.valid){
-          setName(res.data.name)
-        }else{
-          navigate("/emp")
-        }
-      })
-      .catch(err => console.log(err))
-    },[])
-  const [cvList, setCvList] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('https://server-one-puce.vercel.app/get');
-      setCvList(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setCvName((prev) => ({
+      ...prev,
+      [name]: name === 'cv' ? files[0] : value,
+    }));
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-
-  // remove
-  const handleRemove = async(id)=>{
-    try{
-      await axios.delete(`https://server-one-puce.vercel.app/remove/${id}`)
-      window.location.reload()
-    }catch(err){
-      console.log(err);
-    }
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', cvName.name);
+    formData.append('cv', cvName.cv);
+  
+    try {
+        const response = await axios.post('http://localhost:8081/employees', formData);
+        if (response.status === 200) {
+          alert('CV has been added successfully');
+          
+          setCvName({ name: '', cv: null });
+        } else {
+          alert('Failed to add CV. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to add CV. Please try again.');
+      }
+      
+  };
+  
 
   return (
-    <div className={style.tablee}>
-        <h1 >welcom {name}</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Delete</th>
-            <th>CV</th>
-              <th>name</th>
-            </tr>
-          </thead>
-          <tbody>
-      {cvList.map((cv) => (
-        <tr key={cv.id}>
-          <td><button  onClick={()=>handleRemove(cv.id)}>delete</button></td>
-           <td>
-          <a
-            href={`data:application/pdf;base64,${cv.cv}`}
-            download={`${cv.name}_cv.pdf`}
-          >
-            Download CV
-          </a>
-          </td>
-         <td><p>{cv.name}</p></td> 
-         
-        </tr>
-      ))}
-      </tbody>
-      </table>
+    <div className='cv'>
+      <form onSubmit={handleSubmit} className='form'>
+        <div className='text'>
+          <input
+            type='text'
+            name='name'
+            placeholder='Name'
+            spellCheck='false'
+            required
+            value={cvName.name}
+            onChange={handleChange}
+          />
+        </div>
+        <input type='file' name='cv' accept='.pdf,.doc,.docx' onChange={handleChange} />
+        <button type='submit'>click</button>
+      </form>
     </div>
   );
 };
 
-export default M;
+export default Cv;

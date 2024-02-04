@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './css/css.css';
-
 const Cv = () => {
   const [cvName, setCvName] = useState({
     name: '',
     cv: null, 
   });
    
-  
   
   const handleChange = (e) => {
     const { name, value, files } = e.target;
