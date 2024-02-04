@@ -17,36 +17,37 @@ function Emp() {
     });
   };
 
-  axios.defaults.withCredentials =true;
+  axios.defaults.withCredentials = true;
 
-  useEffect(()=>{
-    axios.get("https://server-one-puce.vercel.app/m")
-    .then((res)=>{
-      if(res.data.valid){
-        navigate("/m");
-      }else{
-        navigate("/emp")
+useEffect(() => {
+  axios.get("https://server-one-puce.vercel.app/m")
+    .then((res) => {
+      if (res.data.valid) {
+        setName(res.data.name);
+      } else {
+        navigate("/emp");
       }
     })
-    .catch(err => console.log(err))
-  },[])
+    .catch(err => console.error("Error fetching data:", err));
+}, []);
 
-  const handleSubmit = async (e)=>{
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    axios.post('https://server-one-puce.vercel.app/login',formData)
-    .then(res=>{
-      if(res.data.Login){
-        alert("Data is correct")
-      navigate("/m")
-      }else{
-        alert("name or Password is incorrect");
-      }
-      console.log(res);
-    })
-    .catch(err => console.log(err))
-    
-  };
+  try {
+    const res = await axios.post('https://server-one-puce.vercel.app/login', formData);
+
+    if (res.data.Login) {
+      alert("Data is correct");
+      navigate("/m");
+    } else {
+      alert("Name or Password is incorrect");
+    }
+  } catch (err) {
+    console.error("Error submitting form:", err);
+  }
+};
+
 
   return (
     <div className={style.container}>
