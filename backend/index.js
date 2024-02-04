@@ -90,12 +90,19 @@ app.get("/m", (req, res) => {
   res.header("Access-Control-Allow-Origin", "https://web-beta-woad.vercel.app");
   res.header("Access-Control-Allow-Credentials", true);
 
-  if (req.session.name) {
-    return res.json({ valid: true, name: req.session.name });
-  } else {
-    return res.json({ valid: false });
+  try {
+    if (req.session.name) {
+      return res.json({ valid: true, name: req.session.name });
+    } else {
+      return res.json({ valid: false });
+    }
+  } catch (error) {
+    console.error("Error in /m route:", error);
+    return res.status(500).json({ Message: "Internal Server Error" });
   }
 });
+
+
 
 
 // remove id
