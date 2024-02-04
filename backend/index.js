@@ -9,14 +9,13 @@ const cookieParser = require('cookie-parser');
 const bodyParser= require('body-parser');
 const corsOptions = {
   origin: "https://web-beta-woad.vercel.app",
+   methods: ["POST", "GET", "DELETE", "PUT"],
+
   credentials: true,
 };
 
 app.use(cors(corsOptions));
-
 app.options('*', cors(corsOptions));
-
-
 
 
 app.use(express.json());
