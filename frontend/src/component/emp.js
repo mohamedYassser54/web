@@ -31,7 +31,8 @@ function Emp() {
     try {
       const response = await axios.post('https://server-three-mauve-23.vercel.app/login', { username, password });
       const responseData = response.data;
-
+  
+      console.log(responseData);  // تحقق من الاستجابة في وحدة التحكم
       if (responseData.success) {
         setIsLoggedIn(true);
         Cookies.set('isLoggedIn', true, { expires: 1 / 24 });
@@ -43,6 +44,7 @@ function Emp() {
       alert('An error occurred during login');
     }
   };
+  
 
   return (
     <div className={`${style.container} ${style['emp-container']} ${isLoggedIn ? style['logged-in'] : ''}`}>
