@@ -45,7 +45,7 @@ function Emp() {
   };
 
   return (
-    <div className={`${style.container} ${style['emp-container']} ${isLoggedIn ? style['logged-in'] : ''}`}>
+    <div className={`${style.container}`}>
       <form className={style.card}>
        
           <>
