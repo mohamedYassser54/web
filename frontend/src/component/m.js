@@ -11,7 +11,12 @@ const Welcome = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
-      setCvList(response.data);
+      const formattedData = response.data.map((item) => ({
+        id: item.id,
+        name: item.name,
+        cv: item.cv.toString('base64'), 
+      }));
+      setCvList(formattedData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -20,7 +25,6 @@ const Welcome = () => {
   const handleRemove = async (id) => {
     try {
       await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
-      // تحديث الحالة المحلية بدلاً من إعادة تحميل الصفحة
       setCvList((prevCvList) => prevCvList.filter((cv) => cv.id !== id));
     } catch (err) {
       console.log(err);
@@ -28,10 +32,8 @@ const Welcome = () => {
   };
 
   useEffect(() => {
-    // التحقق من تسجيل الدخول عند تحميل المكون
     const isLoggedIn = Cookies.get('isLoggedIn');
     if (isLoggedIn !== 'true') {
-      // إذا لم يكن مسجل الدخول، قم بتوجيه المستخدم إلى صفحة تسجيل الدخول
       navigate('/emp');
     }
   }, [navigate]);
