@@ -1,19 +1,33 @@
-// في مكون Emp.js
-import React, { useState } from 'react';
+// في Emp.js
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './css/login.module.css';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const Emp = () => {
+function Emp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loggedIn = Cookies.get('isLoggedIn');
+    if (loggedIn === 'true') {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLogin = async () => {
     try {
       const response = await axios.post('https://server-three-mauve-23.vercel.app/login', { username, password });
+      const responseData = response.data;
 
-      if (response.data.success) {
+      if (responseData.success) {
+        setIsLoggedIn(true);
+        Cookies.set('isLoggedIn', true, { expires: 1/24 });
+
+        // بعد تسجيل الدخول بنجاح، قم بتوجيه المستخدم إلى /m
         navigate('/m');
       } else {
         alert('Invalid credentials');
@@ -25,15 +39,21 @@ const Emp = () => {
   };
 
   return (
-    <div className={style.container}>
+    <div className={`${style.container} ${style['emp-container']} ${isLoggedIn ? style['logged-in'] : ''}`}>
       <form className={style.card}>
-        <h1>Login</h1>
-        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="button" onClick={handleLogin}>Login</button>
+        {isLoggedIn ? (
+           (navigate('/m'), null)
+        ) : (
+          <>
+            <h1>Login</h1>
+            <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+            <button onClick={handleLogin}>Login</button>
+          </>
+        )} 
       </form>
     </div>
   );
-};
+}
 
 export default Emp;
