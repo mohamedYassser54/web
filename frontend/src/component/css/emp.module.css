@@ -1,10 +1,9 @@
-.all{
+/* .all{
     width: 100%;
-    /* height: 100vh; */
     display: flex;
     margin-top: 100px;
     justify-content: center;
-}
+} */
 .tablee{
    width: 90%;
     background: #fff5;
@@ -14,14 +13,14 @@
     
     overflow: hidden;
 }
-.h1 {
+/* .h1 {
     width: 100%;
     background: #fff4;
     color: #500c7f;
     display: flex;
     align-items: center;
     justify-content: center;
-}
+} */
 
 thead{
     background: #500c7f;
