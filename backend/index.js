@@ -14,6 +14,19 @@ app.options('*', cors());
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://web-beta-woad.vercel.app');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE'); // Add any additional methods needed
+
+  // Handle preflight requests (OPTIONS method)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  next();
+});
+
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
