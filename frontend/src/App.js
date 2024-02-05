@@ -32,18 +32,8 @@ function App() {
         <Cv2/>
         </div>
         }/>
-        <Route path='/m' element={
-          <div>
-        {/* <Navbar/> */}
-        <M/>
-        </div>
-        }/> 
-        <Route path='/emp' element={
-          <div>
-        {/* <Navbar/> */}
-        <Emp/>
-        </div>
-        }/> 
+        <Route path='/m' element={<M/>}/> 
+        <Route path='/emp' element={<Emp/>}/> 
       </Routes>
 
     </div>
