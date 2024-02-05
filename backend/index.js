@@ -100,23 +100,27 @@ app.delete("/remove/:id",(req,res)=>{
   })
 })
 
+// في ملف الخادم
 app.post('/login', (req, res) => {
-  console.log('Received login request:', req.body); // Log the incoming request
+  console.log('Received login request:', req.body);
 
   const { username, password } = req.body;
-  db.query('SELECT * FROM `login` WHERE username = ? AND password = ?', [username, password], (err, results) => {
+  const sql = 'SELECT * FROM `login` WHERE username = ? AND password = ?';
+
+  db.query(sql, [username, password], (err, results) => {
     if (err) {
       console.error('Database query error:', err);
-      res.json({ success: false, message: 'An error occurred on the server' });
+      return res.status(500).json({ success: false, message: 'An error occurred on the server' });
+    }
+
+    if (results.length > 0) {
+      return res.status(200).json({ success: true, message: 'Login successful' });
     } else {
-      if (results.length > 0) {
-        res.json({ success: true, message: 'Login successful' });
-      } else {
-        res.json({ success: false, message: 'Invalid credentials' });
-      }
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
   });
 });
+
 
 
 
