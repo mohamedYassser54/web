@@ -19,11 +19,11 @@ function App() {
       <Router>
       <Routes>
         <Route
-          path="/emp"
-          element={loggedIn ? <Navigate to="/home" /> : <Login onLogin={handleLogin} />}
+          path="/login"
+          element={loggedIn ? <Navigate to="/m" /> : <Login onLogin={handleLogin} />}
         />
         <Route
-          path="/home"
+          path="/m"
           element={loggedIn ? <Home /> : <Navigate to="/login" />}
         />
          <Route path='/' element={

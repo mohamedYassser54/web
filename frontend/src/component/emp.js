@@ -3,9 +3,6 @@ import style from "./css/login.module.css"
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
- 
-
   const handleLogin = async () => {
     try {
       const response = await fetch('https://server-three-mauve-23.vercel.app/login', {
