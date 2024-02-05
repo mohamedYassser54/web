@@ -3,7 +3,6 @@ import { NavLink} from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import style from './css/Navbar.module.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/navbar.css'
 

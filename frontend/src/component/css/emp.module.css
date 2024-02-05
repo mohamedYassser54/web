@@ -1,26 +1,23 @@
-/* .all{
-    width: 100%;
-    display: flex;
-    margin-top: 100px;
-    justify-content: center;
-} */
+
 .tablee{
-   width: 90%;
+    margin-top: 100px;
+    width: 90%;
+    
     background: #fff5;
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
     border-radius: .8rem;
-    
-    overflow: hidden;
-}
-/* .h1 {
-    width: 100%;
-    background: #fff4;
-    color: #500c7f;
     display: flex;
     align-items: center;
     justify-content: center;
-} */
+    flex-direction: column;
+    overflow: hidden;
+}
+.h1 {
+    width: 100%;
+    background: #fff4;
+    color: #500c7f;
+}
 
 thead{
     background: #500c7f;
