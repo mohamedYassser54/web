@@ -5,7 +5,7 @@ const cors = require('cors');
 const multer = require('multer');
 
 const app = express();
-const port = 8081;
+const port = process.env.PORT || 3001;
 app.use(cors()); 
 app.use(bodyParser.json());
 
@@ -100,29 +100,26 @@ app.delete("/remove/:id",(req,res)=>{
   })
 })
 
-// في ملف الخادم
+// login
 app.post('/login', (req, res) => {
-  console.log('Received login request:', req.body);
+  console.log('Received login request:', req.body); // Log the incoming request
 
   const { username, password } = req.body;
-  const sql = 'SELECT * FROM `login` WHERE username = ? AND password = ?';
-
-  db.query(sql, [username, password], (err, results) => {
+  db.query('SELECT * FROM `login` WHERE username = ? AND password = ?', [username, password], (err, results) => {
     if (err) {
       console.error('Database query error:', err);
-      return res.status(500).json({ success: false, message: 'An error occurred on the server' });
-    }
-
-    if (results.length > 0) {
-      return res.status(200).json({ success: true, message: 'Login successful' });
+      res.json({ success: false, message: 'An error occurred on the server' });
     } else {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      if (results.length > 0) {
+        res.json({ success: true, message: 'Login successful' });
+      } else {
+        res.json({ success: false, message: 'Invalid credentials' });
+      }
     }
   });
 });
 
-
-
+https://server-three-mauve-23.vercel.app
 
 
 app.listen(port, () => {
