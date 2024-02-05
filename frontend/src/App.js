@@ -1,30 +1,32 @@
-import react from 'react'
-import {BrowserRouter, NavLink,Route,Routes} from 'react-router-dom'
-import Cv from './component/Cv'; 
-import Cv2 from './component/CV2'; 
-import M from './component/m'; 
-import Emp from './component/emp'; 
-import './App.css';
-import Home from './component/home';
-function App() {
-  return (
-    <BrowserRouter>
-    <div className="App">
-      {/* <h1 className="k">Home page</h1> */}
-      
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/Cv' element={<Cv/>}/>
-        <Route path='/Cv2' element={<Cv2/>}/>
-        <Route path='/m' element={<M/>}/> 
-        <Route path='/emp' element={<Emp/>}/> 
-      </Routes>
+// frontend/src/App.js
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-    </div>
-    </BrowserRouter>
+import Login from './component/emp';
+import Home from './component/m';
+import './App.css';
+
+function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/login"
+          element={loggedIn ? <Navigate to="/home" /> : <Login onLogin={handleLogin} />}
+        />
+        <Route
+          path="/home"
+          element={loggedIn ? <Home /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
-
-

@@ -1,60 +1,45 @@
-// في Emp.js
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import style from './css/login.module.css';
-import axios from 'axios';
-import Welcome from './m'; 
-import Cookies from 'js-cookie';
+// frontend/src/Login.js
+import React, { useState } from 'react';
 
-function Emp() {
+function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const loggedIn = Cookies.get('isLoggedIn');
-    if (loggedIn === 'true') {
-      setIsLoggedIn(true);
-    }
-  }, []);
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://server-three-mauve-23.vercel.app/login', { username, password });
-      const responseData = response.data;
+      const response = await fetch('https://server-three-mauve-23.vercel.app/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-      if (responseData.success) {
-        setIsLoggedIn(true);
-        Cookies.set('isLoggedIn', true, { expires: 1/24 });
-
-        // بعد تسجيل الدخول بنجاح، قم بتوجيه المستخدم إلى /m
-        navigate('/m');
+      if (response.ok) {
+        console.log('Login successful');
+        onLogin(); // Notify the parent component about the successful login
       } else {
-        alert('Invalid credentials');
+        console.error('Login failed');
       }
     } catch (error) {
       console.error('Error during login:', error);
-      alert('An error occurred during login');
     }
   };
 
   return (
-    <div className={`${style.container} ${style['emp-container']} ${isLoggedIn ? style['logged-in'] : ''}`}>
-      <form className={style.card}>
-        {isLoggedIn ? (
-             (navigate('/m'), null)
-        ) : (
-          <>
-            <h1>Login</h1>
-            <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleLogin}>Login</button>
-          </>
-        )} 
-      </form>
+    <div className="App">
+      <h1>Login</h1>
+      <div>
+        <label>Username:</label>
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </div>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 }
 
-export default Emp;
+export default Login;
