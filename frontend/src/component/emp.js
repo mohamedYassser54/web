@@ -43,7 +43,7 @@ function Emp() {
     <div className={`${style.container} ${style['emp-container']} ${isLoggedIn ? style['logged-in'] : ''}`}>
       <form className={style.card}>
         {isLoggedIn ? (
-           navigate('/m')
+             (navigate('/m'), null)
         ) : (
           <>
             <h1>Login</h1>
