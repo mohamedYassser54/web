@@ -48,15 +48,15 @@ const Welcome = ({ username }) => {
       <table>
         <thead>
           <tr>
-          <th>name</th>
-          <th>CV</th>
-          <th>Delete</th>
+            <th>Delete</th>
+            <th>CV</th>
+            <th>name</th>
           </tr>
         </thead>
         <tbody>
-        {cvList.map((cv) => (
+          {cvList.map((cv) => (
             <tr key={cv.id}>
-              <td><p>{cv.name}</p></td>
+              <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
               <td>
                 <a
                   href={`data:application/pdf;base64,${cv.cv}`}
@@ -65,9 +65,7 @@ const Welcome = ({ username }) => {
                   Download CV
                 </a>
               </td>
-              <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
-
-              
+              <td><p>{cv.name}</p></td>
             </tr>
           ))}
         </tbody>
