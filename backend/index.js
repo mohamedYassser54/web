@@ -101,23 +101,20 @@ app.delete("/remove/:id",(req,res)=>{
 })
 
 app.post('/login', (req, res) => {
-  console.log('Received login request:', req.body); // Log the incoming request
-
   const { username, password } = req.body;
-  db.query('SELECT * FROM `login` WHERE username = ? AND password = ?', [username, password], (err, results) => {
+  const sql = 'SELECT * FROM login WHERE username = ? AND password = ?';
+
+  db.query(sql, [username, password], (err, result) => {
     if (err) {
-      console.error('Database query error:', err);
-      res.json({ success: false, message: 'An error occurred on the server' });
+      console.error('Error executing query:', err);
+      res.status(500).send('Internal Server Error');
+    } else if (result.length > 0) {
+      res.status(200).send('Login successful');
     } else {
-      if (results.length > 0) {
-        res.json({ success: true, message: 'Login successful' });
-      } else {
-        res.json({ success: false, message: 'Invalid credentials' });
-      }
+      res.status(401).send('Invalid credentials');
     }
   });
 });
-
 
 
 
