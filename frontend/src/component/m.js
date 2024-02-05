@@ -42,9 +42,8 @@ const Welcome = ({ username }) => {
   }, []);
 
   return (
-    <div className={style.all}>
     <div className={style.tablee}>
-      <h1 className={style.h1}>Welcome, {username}!</h1>
+      <h1>Welcome, {username}!</h1>
       <table>
         <thead>
           <tr>
@@ -70,7 +69,6 @@ const Welcome = ({ username }) => {
           ))}
         </tbody>
       </table>
-    </div>
     </div>
   );
 };
