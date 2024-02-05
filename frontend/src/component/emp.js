@@ -28,7 +28,7 @@ function Emp() {
         setIsLoggedIn(true);
         Cookies.set('isLoggedIn', true, { expires: 1/24 });
 
-      
+        // بعد تسجيل الدخول بنجاح، قم بتوجيه المستخدم إلى /m
         navigate('/m');
       } else {
         alert('Invalid credentials');
@@ -47,7 +47,7 @@ function Emp() {
         ) : (
           <>
             <h1>Login</h1>
-            <input type="text" placeholder="name" onChange={(e) => setUsername(e.target.value)} />
+            <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
             <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
             <button onClick={handleLogin}>Login</button>
           </>

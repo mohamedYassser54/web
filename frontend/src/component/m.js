@@ -20,8 +20,8 @@ const Welcome = ({ username }) => {
 
   const handleRemove = async (id) => {
     try {
-      await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
-   
+      await axios.delete(`https://server-three-mauve-23.vercel.app/${id}`);
+      // تحديث الحالة المحلية بدلاً من إعادة تحميل الصفحة
       setCvList((prevCvList) => prevCvList.filter((cv) => cv.id !== id));
     } catch (err) {
       console.log(err);
@@ -29,10 +29,10 @@ const Welcome = ({ username }) => {
   };
 
   useEffect(() => {
-   
+    // التحقق من تسجيل الدخول عند تحميل المكون
     const isLoggedIn = Cookies.get('isLoggedIn');
     if (isLoggedIn !== 'true') {
-      
+      // إذا لم يكن مسجل الدخول، قم بتوجيه المستخدم إلى صفحة تسجيل الدخول
       navigate('/emp');
     }
   }, [navigate]);

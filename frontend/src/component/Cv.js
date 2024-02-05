@@ -27,7 +27,7 @@ const Cv = () => {
         if (response.status === 200) {
           alert('CV has been added successfully');
           
-          setCvName({ name: '', cv: null });
+          setCvName({ username: '', cv: null });
         } else {
           alert('Failed to add CV. Please try again.');
         }
