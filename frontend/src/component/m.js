@@ -1,11 +1,10 @@
-// في Welcome.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import style from './css/emp.module.css';
 import Cookies from 'js-cookie';
 
-const Welcome = ({ username }) => {
+const Welcome = () => {
   const [cvList, setCvList] = useState([]);
   const navigate = useNavigate();
 
@@ -43,19 +42,19 @@ const Welcome = ({ username }) => {
 
   return (
     <div className={style.tablee}>
-      <h1>Welcome, {username}!</h1>
+      <h1>Welcome!</h1>
       <table>
         <thead>
           <tr>
             <th>Delete</th>
             <th>CV</th>
-            <th>name</th>
+            <th>Name</th>
           </tr>
         </thead>
         <tbody>
           {cvList.map((cv) => (
             <tr key={cv.id}>
-              <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
+              <td><button onClick={() => handleRemove(cv.id)}>Delete</button></td>
               <td>
                 <a
                   href={`data:application/pdf;base64,${cv.cv}`}
