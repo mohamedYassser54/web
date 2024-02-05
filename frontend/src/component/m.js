@@ -42,20 +42,21 @@ const Welcome = ({ username }) => {
   }, []);
 
   return (
+    <div className={style.all}>
     <div className={style.tablee}>
-      <h1>Welcome, {username}!</h1>
+      <h1 className={style.h1}>Welcome, {username}!</h1>
       <table>
         <thead>
           <tr>
-            <th>Delete</th>
-            <th>CV</th>
-            <th>name</th>
+          <th>name</th>
+          <th>CV</th>
+          <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {cvList.map((cv) => (
+        {cvList.map((cv) => (
             <tr key={cv.id}>
-              <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
+              <td><p>{cv.name}</p></td>
               <td>
                 <a
                   href={`data:application/pdf;base64,${cv.cv}`}
@@ -64,11 +65,14 @@ const Welcome = ({ username }) => {
                   Download CV
                 </a>
               </td>
-              <td><p>{cv.name}</p></td>
+              <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
+
+              
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };
