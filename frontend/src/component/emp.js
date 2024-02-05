@@ -1,4 +1,5 @@
-// في Emp.js
+// في داخل مكون Emp.js
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './css/login.module.css';
@@ -18,6 +19,14 @@ function Emp() {
     }
   }, []);
 
+  useEffect(() => {
+    // تحقق من حالة الدخول بعد تحديث الحالة
+    if (isLoggedIn) {
+      // بعد تسجيل الدخول بنجاح، قم بتوجيه المستخدم إلى /m
+      navigate('/m');
+    }
+  }, [isLoggedIn]); // أضف isLoggedIn كتأثير جانبي لـ useEffect
+
   const handleLogin = async () => {
     try {
       const response = await axios.post('https://server-three-mauve-23.vercel.app/login', { username, password });
@@ -25,10 +34,7 @@ function Emp() {
 
       if (responseData.success) {
         setIsLoggedIn(true);
-        Cookies.set('isLoggedIn', true, { expires: 1/24 });
-
-        // بعد تسجيل الدخول بنجاح، قم بتوجيه المستخدم إلى /m
-        navigate('/m');
+        Cookies.set('isLoggedIn', true, { expires: 1 / 24 });
       } else {
         alert('Invalid credentials');
       }
@@ -42,7 +48,7 @@ function Emp() {
     <div className={`${style.container} ${style['emp-container']} ${isLoggedIn ? style['logged-in'] : ''}`}>
       <form className={style.card}>
         {isLoggedIn ? (
-           (navigate('/m'), null)
+          alert("hello")
         ) : (
           <>
             <h1>Login</h1>
@@ -50,7 +56,7 @@ function Emp() {
             <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
             <button onClick={handleLogin}>Login</button>
           </>
-        )} 
+        )}
       </form>
     </div>
   );
