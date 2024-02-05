@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './css/css.css';
+import style from'./css/css.module.css';
 const Cv = () => {
   const [cvName, setCvName] = useState({
     name: '',
@@ -40,9 +40,9 @@ const Cv = () => {
   
 
   return (
-    <div className='cv'>
-      <form onSubmit={handleSubmit} className='form'>
-        <div className='text'>
+    <div className={style.cv}>
+      <form onSubmit={handleSubmit} className={style.form}>
+     <div className={style.text}>
           <input
             type='text'
             name='name'
