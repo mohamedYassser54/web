@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 
 const Welcome = ({ username }) => {
   const [cvList, setCvList] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -41,10 +42,21 @@ const Welcome = ({ username }) => {
     fetchData();
   }, []);
 
+
+  const handleLogout = () => {
+    Cookies.remove('isLoggedIn');
+    setIsLoggedIn(false);
+    // يمكنك توجيه المستخدم إلى صفحة تسجيل الخروج أو أي صفحة أخرى بعد تسجيل الخروج
+    navigate('/emp');
+  };
+
   return (
     <div className={style.all}>
     <div className={style.tablee}>
-      <h1 className={style.h1}>Welcome, {username}!</h1>
+    <div className={style.hh}>
+        <h1 className={style.h1}>Welcome</h1>
+    <button onClick={handleLogout}>Logout</button>
+        </div>
       <table>
         <thead>
           <tr>

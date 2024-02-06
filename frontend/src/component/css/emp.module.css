@@ -11,16 +11,26 @@
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
     border-radius: .8rem;
-    
     overflow: hidden;
 }
-.h1 {
-    width: 100%;
-    background: #fff4;
-    color: #500c7f;
+.hh{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+}
+.hh button{
+    border: none;
+    width: 200px;
+    padding: 5px;
+    color: #fff;
+    background: #500c7f;
+    border-radius: 10px;
+    /* margin-top: 15px; */
+    cursor: pointer;
+}
+.h1 {
+    background: #fff4;
+    color: #500c7f;
 }
 
 thead{
@@ -34,9 +44,9 @@ table{
 td{
     font-size: 15px;
     border-bottom: 1px solid #500c7f;
-    text-align: center;
     
 }
+
 a{
     text-decoration: none;
     color: #500c7f;
@@ -48,4 +58,6 @@ td button{
    border: none;
    border-radius: 10px;
    padding: 5px;
+   cursor: pointer;
 }
+
