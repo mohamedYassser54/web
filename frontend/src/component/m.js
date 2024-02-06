@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import style from './css/emp.module.css';
 import Cookies from 'js-cookie';
 
-const Welcome = () => {
+const Welcome = ({ username }) => {
   const [cvList, setCvList] = useState([]);
-
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
@@ -28,7 +28,14 @@ const Welcome = () => {
     }
   };
 
- 
+  useEffect(() => {
+    // التحقق من تسجيل الدخول عند تحميل المكون
+    const isLoggedIn = Cookies.get('isLoggedIn');
+    if (isLoggedIn !== 'true') {
+      // إذا لم يكن مسجل الدخول، قم بتوجيه المستخدم إلى صفحة تسجيل الدخول
+      navigate('/emp');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     fetchData();
@@ -36,19 +43,19 @@ const Welcome = () => {
 
   return (
     <div className={style.tablee}>
-      <h1>Welcome!</h1>
+      <h1>Welcome, {username}!</h1>
       <table>
         <thead>
           <tr>
-          <th>name</th>
-          <th>CV</th>
-          <th>Delete</th>
+            <th>Delete</th>
+            <th>CV</th>
+            <th>name</th>
           </tr>
         </thead>
         <tbody>
           {cvList.map((cv) => (
             <tr key={cv.id}>
-              <td><p>{cv.name}</p></td>
+              <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
               <td>
                 <a
                   href={`data:application/pdf;base64,${cv.cv}`}
@@ -57,7 +64,7 @@ const Welcome = () => {
                   Download CV
                 </a>
               </td>
-              <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
+              <td><p>{cv.name}</p></td>
             </tr>
           ))}
         </tbody>
