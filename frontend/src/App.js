@@ -1,10 +1,11 @@
-import react from 'react'
+import React from 'react'
 import {BrowserRouter, NavLink,Route,Routes} from 'react-router-dom'
 import Cv from './component/Cv'; 
 import Cv2 from './component/CV2'; 
 import M from './component/m'; 
 import Emp from './component/emp'; 
-import Navbar from './component/Navbar'; 
+import Navbar from './component/Navbar';
+import Test18n from './component/Test18n';
 import './App.css';
 import Home from './component/home';
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/Cv2' element={<Cv2/>}/>
         <Route path='/m' element={<M/>}/> 
         <Route path='/emp' element={<Emp/>}/> 
+        <Route element={<Test18n />}/>
       </Routes>
 
     </div>
