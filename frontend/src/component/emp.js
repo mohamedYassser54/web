@@ -5,12 +5,16 @@ import style from './css/login.module.css';
 import axios from 'axios';
 import Welcome from './m'; 
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
 
 function Emp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
+
 
   useEffect(() => {
     const loggedIn = Cookies.get('isLoggedIn');
@@ -27,8 +31,6 @@ function Emp() {
       if (responseData.success) {
         setIsLoggedIn(true);
         Cookies.set('isLoggedIn', true, { expires: 1/24 });
-
-        // بعد تسجيل الدخول بنجاح، قم بتوجيه المستخدم إلى /m
         navigate('/m');
       } else {
         alert('Invalid credentials');
@@ -40,16 +42,16 @@ function Emp() {
   };
 
   return (
-    <div className={`${style.container} ${style['emp-container']} ${isLoggedIn ? style['logged-in'] : ''}`}>
+    <div className={`${style.container}`}>
       <div className={style.card}>
         {isLoggedIn ? (
-              null
+             navigate("/m") 
         ) : (
           <>
-            <h1>Login</h1>
-            <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleLogin}>Login</button>
+            <h1>{t("Login")}</h1>
+            <input type="text" placeholder={t("placeholderName")} onChange={(e) => setUsername(e.target.value)} />
+            <input type="password" placeholder={t("Password")} onChange={(e) => setPassword(e.target.value)} />
+            <button onClick={handleLogin}>{t("Login")}</button>
           </>
         )} 
       </div>

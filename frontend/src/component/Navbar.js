@@ -30,10 +30,11 @@ const  NavBar = () => {
             <NavLink to="/Cv" className="link">{t("CV")}</NavLink>
             <NavLink to="/support" className="link">{t("support")}</NavLink>
             <NavLink to="/emp" className="link">{t("employees")}</NavLink>
+            <button onClick={changeEn}>EN</button>
+            <button onClick={changeFr}>AR</button>
           </Nav>
         </Navbar.Collapse>
-        <button onClick={changeEn}>EN</button>
-        <button onClick={changeFr}>AR</button>
+       
       </Container>
     </Navbar>
     </div>

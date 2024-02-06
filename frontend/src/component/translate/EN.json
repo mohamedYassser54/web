@@ -4,5 +4,10 @@
     "Home":"Home",
     "CV":"CV",
     "support":"support",
-    "employees":"employees"
+    "employees":"employees",
+    "placeholderName":"Name",
+    "click":"click",
+    "Login":"Login",
+    "Password":"Password"
+
 }

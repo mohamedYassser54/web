@@ -6,6 +6,8 @@ import M from './component/m';
 import Emp from './component/emp'; 
 import Navbar from './component/Navbar';
 import Test18n from './component/Test18n';
+import Signup from './component/RegLo/Register';
+import Signin from './component/RegLo/signin';
 import './App.css';
 import Home from './component/home';
 function App() {
@@ -21,11 +23,23 @@ function App() {
         <Home/>
         </div>
         }/>
-        <Route path='/Cv' element={<Cv/>}/>
-        <Route path='/Cv2' element={<Cv2/>}/>
+        <Route path='/Cv' element={
+        <div>
+        <Navbar/>
+        <Cv/>
+        </div>
+        }/>
+        <Route path='/Cv2' element={
+         <div>
+         <Navbar/>
+        <Cv2/>
+        </div>
+        }/>
         <Route path='/m' element={<M/>}/> 
         <Route path='/emp' element={<Emp/>}/> 
         <Route element={<Test18n />}/>
+        <Route path='/signup' element={<Signup/>}/>  
+        <Route path='/signin' element={<Signin/>}/> 
       </Routes>
 
     </div>

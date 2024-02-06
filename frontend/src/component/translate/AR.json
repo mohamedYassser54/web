@@ -4,5 +4,9 @@
     "Home":"الصفحة الرئيسية",
     "CV":"السيرة الذاتية",
     "support":"الدعم",
-    "employees":"الموظفين"
+    "employees":"الموظفين",
+    "placeholderName":"الاسم",
+    "click":"اضغط",
+    "Login":"تسجيل الدخول ",
+    "Password":"رقم السري"
 }

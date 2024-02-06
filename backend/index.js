@@ -37,6 +37,76 @@ app.get("/", (req, res) => {
   return res.json("backend");
 });
 
+
+
+
+
+// sigup
+
+app.post('/signup', (req, res) => {
+  const checkIfExistsQuery = "SELECT * FROM register WHERE email = ?";
+  
+  db.query(checkIfExistsQuery, [req.body.email], (err, result) => {
+    if (err) {
+      return res.json({ Message: "Error in Node" });
+    }
+
+    if (result.length > 0) {
+      return res.json({ Message: "User already exists" });
+    } else {
+      const password = req.body.password;
+      bcrypt.hash(password.toString(), 10, (hashErr, hash) => {
+        if (hashErr) {
+          return res.json({ Message: "Error hashing password" });
+        }
+
+        const sql = "INSERT INTO register (`username`,`email`,`password`,`number`) VALUES (?, ?, ?, ?)";
+        const values = [
+          req.body.username,
+          req.body.email,
+          hash,
+          req.body.number,
+        ];
+
+        db.query(sql, values, (insertErr, result) => {
+          if (insertErr) {
+            return res.json({ Message: "Error in Node" });
+          }
+          return res.json(result);
+        });
+      });
+    }
+  });
+});
+
+// loginUser
+app.post("/loginUser", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const sql = "SELECT * FROM register WHERE `email` = ?";
+  db.query(sql, [email], (err, result) => {
+    if (err) return res.json({ Message: "Error inside server" });
+
+    if (result.length > 0) {
+      bcrypt.compare(password, result[0].password, (err, response) => {
+        if (err) {
+          return res.json({ Message: "Error comparing passwords" });
+        }
+        if (response) {
+          return res.json({ Message: "Logged in successfully" });
+        } else {
+          return res.json({ Message: "Wrong password" });
+        }
+      });
+    } else {
+      return res.json({ Message: "User not found" });
+    }
+  });
+});
+
+
+
 app.post("/employees", upload.single('cv'), (req, res) => {
   const sql = "INSERT INTO `employees` (`name`, `cv`) VALUES (?, ?)";
   const values = [req.body.name, req.file.buffer];

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import style from'./css/css.module.css';
 const Cv = () => {
   const [cvName, setCvName] = useState({
     name: '',
     cv: null, 
   });
-   
+  const { t, i18n } = useTranslation();
   
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -46,15 +47,15 @@ const Cv = () => {
           <input
             type='text'
             name='name'
-            placeholder='Name'
+            placeholder={t('placeholderName')}
             spellCheck='false'
             required
             value={cvName.name}
             onChange={handleChange}
           />
         </div>
-        <input type='file' name='cv' accept='.pdf,.doc,.docx' onChange={handleChange} />
-        <button type='submit'>click</button>
+        <input type='file' name='cv'  accept='.pdf,.doc,.docx' onChange={handleChange} />
+        <button type='submit'>{t("click")}</button>
       </form>
     </div>
   );

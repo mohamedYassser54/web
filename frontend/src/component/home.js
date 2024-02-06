@@ -1,8 +1,18 @@
-import React from 'react'
-import { NavLink} from 'react-router-dom'
-
+import React,{useEffect} from 'react'
+import { NavLink,useNavigate} from 'react-router-dom'
+import Cookies from 'js-cookie';
 import '../App.css'
-function home() {
+function Home() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  
+    const isLoggedIn = Cookies.get('isLoggedIn');
+    if (isLoggedIn !== 'true') {
+      
+      navigate('/signin');
+    }
+  }, [navigate]);
   return (
     <div>
       <div className="flex">
@@ -15,4 +25,4 @@ function home() {
   )
 }
 
-export default home
+export default Home
