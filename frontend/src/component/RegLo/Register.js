@@ -40,13 +40,7 @@ function Signup() {
       .catch((err) => console.log(err));
   };
 
- useEffect(()=>{
-  document.body.classList.add(styles.signinBody);
 
-  return()=>{
-    document.body.classList.remove(styles.signinBody);
-  }
- },[])
   return (
     <div className={styles.container}>
    

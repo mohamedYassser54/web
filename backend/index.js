@@ -9,6 +9,9 @@ const app = express();
 const port = 8081;
 app.use(cors()); 
 app.use(bodyParser.json());
+app.use(cors({
+  origin: 'https://web-beta-woad.vercel.app',
+}));
 
 
 app.options('*', cors());
