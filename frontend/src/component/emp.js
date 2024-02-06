@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import style from "./css/login.module.css"
+
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,8 +25,8 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div className={style.container}>
-      <form className={style.card}>
+    <div className="{style.container}">
+      <form className="{style.card}">
        
             <h1>Login</h1>
             <input type="text" placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
