@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-const Welcome = () => {
-  
-  
+import React from 'react';
 
+const Home = () => {
   
-
   return (
     <div className="{style.tablee}">
       <h1>Welcome!</h1>
@@ -14,4 +10,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default Home;
