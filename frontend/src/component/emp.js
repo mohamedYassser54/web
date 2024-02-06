@@ -1,6 +1,6 @@
 // frontend/src/Login.js
 import React, { useState } from 'react';
-
+import style from './css/login.module.css'
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -27,17 +27,18 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div className="App">
-      <h1>Login</h1>
+    <div className={style.container}>
+      <div  className={style.card}>
       <div>
-        <label>Username:</label>
+      <h1>Login</h1>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
       </div>
       <div>
-        <label>Password:</label>
+        
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       <button onClick={handleLogin}>Login</button>
+    </div>
     </div>
   );
 }
