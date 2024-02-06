@@ -55,7 +55,7 @@ function Signup() {
     {/* <img src={Img} alt="" /> */}
     </span>
     <h1>Sign up </h1>
-    <form onSubmit={handleSubmit}   >
+    <div>
    {/* <!-----inp--------------> */}
   
      <div className={styles.inp}>
@@ -71,7 +71,7 @@ function Signup() {
   
   {/* <!-------------btn--------------> */}
   <div className={styles.btn} > 
- <button type="submit">Register</button>
+ <button onClick={handleSubmit}>Register</button>
   </div>
   <div className={styles.texts}>
  <span> Already have an account? </span>
@@ -82,7 +82,7 @@ function Signup() {
   </div>
    
   
-   </form>
+   </div>
     </div>
     </div>
   )
