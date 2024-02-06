@@ -6,27 +6,28 @@ import style from './css/emp.module.css';
 import Cookies from 'js-cookie';
 
 const Welcome = ({ username }) => {
-  const [cvList, setCvList] = useState([]);
   const navigate = useNavigate();
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
-      setCvList(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  // const [cvList, setCvList] = useState([]);
 
-  const handleRemove = async (id) => {
-    try {
-      await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
-      // تحديث الحالة المحلية بدلاً من إعادة تحميل الصفحة
-      setCvList((prevCvList) => prevCvList.filter((cv) => cv.id !== id));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
+  //     setCvList(response.data);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
+  // const handleRemove = async (id) => {
+  //   try {
+  //     await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
+  //     // تحديث الحالة المحلية بدلاً من إعادة تحميل الصفحة
+  //     setCvList((prevCvList) => prevCvList.filter((cv) => cv.id !== id));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
     // التحقق من تسجيل الدخول عند تحميل المكون
@@ -37,9 +38,9 @@ const Welcome = ({ username }) => {
     }
   }, [navigate]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <div className={style.tablee}>
@@ -52,7 +53,7 @@ const Welcome = ({ username }) => {
             <th>name</th>
           </tr>
         </thead>
-        <tbody>
+        {/* <tbody>
           {cvList.map((cv) => (
             <tr key={cv.id}>
               <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
@@ -67,7 +68,7 @@ const Welcome = ({ username }) => {
               <td><p>{cv.name}</p></td>
             </tr>
           ))}
-        </tbody>
+        </tbody> */}
       </table>
     </div>
   );
