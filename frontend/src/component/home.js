@@ -6,8 +6,8 @@ function Home() {
 
   useEffect(() => {
   
-    const isLoggedIn = Cookies.get('isLoggedIn');
-    if (isLoggedIn !== 'true') {
+    const login = Cookies.get('login');
+    if (login !== 'true') {
       
       navigate('/signin');
     }

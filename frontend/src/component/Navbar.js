@@ -11,7 +11,7 @@ import './css/navbar.css'
 const  NavBar = () => {
  
     const { t, i18n } = useTranslation();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [login, setLogin] = useState(false);
     const navigate = useNavigate();
   
     
@@ -22,8 +22,8 @@ const  NavBar = () => {
         i18n.changeLanguage('ar')
     }
     const handleLogout =()=>{
-      Cookies.remove("isLoggedIn");
-      setIsLoggedIn(false);
+      Cookies.remove("login");
+      setLogin(false);
       navigate('/signin');
     }
   return (

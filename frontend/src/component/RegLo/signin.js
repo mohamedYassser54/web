@@ -12,7 +12,7 @@ function Signin() {
         email:"",
         password:"",
     });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [login, setLogin] = useState(false);
     const navigate = useNavigate();
 
 //   const handleChange =(e)=>{
@@ -36,9 +36,9 @@ function Signin() {
   // },[])  
 
   useEffect(() => {
-    const loggedIn = Cookies.get('isLoggedIn');
+    const loggedIn = Cookies.get('login');
     if (loggedIn === 'true') {
-      setIsLoggedIn(true);
+      setLogin(true);
     }
   }, []);
   const handleSubmit = async (e) => {
@@ -49,8 +49,8 @@ function Signin() {
   
       if (responseData && responseData.Message === "Logged in successfully") {
         alert("Data is correct");
-        setIsLoggedIn(true);
-        Cookies.set('isLoggedIn', true, { expires: 1 / 24 });
+        setLogin(true);
+        Cookies.set('login', true, { expires: 1 / 24 });
         navigate("/");
       } else {
         alert("Wrong password or email");
@@ -81,7 +81,7 @@ function Signin() {
     <div className={styles.signbox}>
     <span className={styles.iconimage}>
     </span>
-    {isLoggedIn ? (
+    {login ? (
         navigate("/") 
        ) : (
         <>

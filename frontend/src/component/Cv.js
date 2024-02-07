@@ -10,11 +10,11 @@ const Cv = () => {
     cv: null, 
   });
   const { t, i18n } = useTranslation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const navigate = useNavigate();
   useEffect(()=>{
-    const isLoggedIn =Cookies.get("isLoggedIn");
-    if(isLoggedIn !== "true"){
+    const login =Cookies.get("login");
+    if(login !== "true"){
       navigate("/signin")
     }
   })
