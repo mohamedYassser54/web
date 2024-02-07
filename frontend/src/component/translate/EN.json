@@ -6,8 +6,20 @@
     "support":"support",
     "employees":"employees",
     "placeholderName":"Name",
+    "placeholderEmail":"Email",
     "click":"click",
     "Login":"Login",
-    "Password":"Password"
+    "Password":"Password",
+    "Sign up":"Sign up",
+    "Mobile number":"Mobile number",
+    " Already have an account?":" Already have an account?",
+    "Sign in":"Sign in ",
+    "Here":"Here",
+    "Don't have an account?":"Don't have an account?",
+    "Logout":"Logout",
+    "Delete":"Delete",
+    "cv":"cv",
+    "username":"username",
+    "Download CV": "Download CV"
 
 }

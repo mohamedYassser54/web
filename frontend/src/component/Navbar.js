@@ -1,15 +1,19 @@
-import React, { Fragment } from 'react'
-import { NavLink} from 'react-router-dom'
+import React, { useState} from 'react'
+import { NavLink,useNavigate} from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/navbar.css'
 
 const  NavBar = () => {
  
     const { t, i18n } = useTranslation();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+  
     
     const changeEn = () =>{
         i18n.changeLanguage('en')
@@ -17,8 +21,13 @@ const  NavBar = () => {
     const changeFr = () =>{
         i18n.changeLanguage('ar')
     }
+    const handleLogout =()=>{
+      Cookies.remove("isLoggedIn");
+      setIsLoggedIn(false);
+      navigate('/signin');
+    }
   return (
-    // <Fragment>
+
     <div>
       <Navbar expand="lg" className="navbar">
       <Container>
@@ -30,9 +39,10 @@ const  NavBar = () => {
             <NavLink to="/Cv" className="link">{t("CV")}</NavLink>
             <NavLink to="/support" className="link">{t("support")}</NavLink>
             <NavLink to="/emp" className="link">{t("employees")}</NavLink>
-            <button onClick={changeEn}>EN</button>
-            <button onClick={changeFr}>AR</button>
+            <NavLink  className="link" onClick={handleLogout}>{t("Logout")}</NavLink>
           </Nav>
+          <button onClick={changeEn}>EN</button>
+            <button onClick={changeFr}>AR</button>
         </Navbar.Collapse>
        
       </Container>

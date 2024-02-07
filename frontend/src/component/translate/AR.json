@@ -1,12 +1,24 @@
 {
     "hello": "مرحبا",
-    "brand":"موقع",
+    "brand":"ويب",
     "Home":"الصفحة الرئيسية",
     "CV":"السيرة الذاتية",
     "support":"الدعم",
     "employees":"الموظفين",
     "placeholderName":"الاسم",
+    "placeholderEmail":"بريد إلكتروني",
     "click":"اضغط",
     "Login":"تسجيل الدخول ",
-    "Password":"رقم السري"
+    "Password":"رقم السري",
+    "Sign up":"إنشاء حساب",
+    "Mobile number":"رقم الهاتف",
+    " Already have an account?":"هل لديك حساب؟",
+    "Sign in":"تسجيل الدخول ",
+    "Here":"هنا",
+    "Don't have an account?":"ليس لديك حساب؟",
+    "Logout":"تسجيل خروج",
+    "Delete":"حذف",
+    "cv":"السيرة الذاتية",
+    "username":"اسم المستخدم",
+    " Download CV":"تحميل السيرة الذاتية"
 }

@@ -2,9 +2,11 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate,NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
 import styles from "../css/signup.module.css"
 
 function Signin() {
+  const { t, i18n } = useTranslation();
   
     const [formData,setData] = useState({
         email:"",
@@ -83,25 +85,25 @@ function Signin() {
         navigate("/") 
        ) : (
         <>
-    <h1>Sign in </h1>
+    <h1>{t("Sign in")}</h1>
     <div>
   
    
      <div className={styles.inp}>
-        <input type="Email" placeholder="Email"name="email" required value={formData.email} onChange={(e) => setData({ ...formData, email: e.target.value })} />
-        <input type="password" placeholder="Password"name="password" required value={formData.password} onChange={(e) => setData({ ...formData, password: e.target.value })}/>
+        <input type="Email" placeholder={t("placeholderEmail")}name="email" required value={formData.email} onChange={(e) => setData({ ...formData, email: e.target.value })} />
+        <input type="password" placeholder={t("Password")}name="password" required value={formData.password} onChange={(e) => setData({ ...formData, password: e.target.value })}/>
         
       
      </div>
  
   <div className={styles.btn} > 
- <button onClick={handleSubmit}>Register</button>
+ <button onClick={handleSubmit}>{t("click")}</button>
   </div>
   <div className={styles.texts}>
- <span> Already have an account? </span>
+ <span> {t("Don't have an account?")}</span>
 
  
-  <strong> <NavLink to ="/signup">Sign up </NavLink> Here</strong>
+  <strong> <NavLink to ="/signup">{t("Sign up")} </NavLink> {t("Here")}</strong>
  
 
   </div>

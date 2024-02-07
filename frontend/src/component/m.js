@@ -2,13 +2,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import style from './css/emp.module.css';
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+import style from './css/emp.module.css';
+
 
 const Welcome = ({ username }) => {
+  const { t, i18n } = useTranslation();
   const [cvList, setCvList] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+
+   const changeEn = () =>{
+     i18n.changeLanguage('en')
+   }
+   const changeFr = () =>{
+     i18n.changeLanguage('ar')
+   }
+
+
+
 
   const fetchData = async () => {
     try {
@@ -22,7 +36,6 @@ const Welcome = ({ username }) => {
   const handleRemove = async (id) => {
     try {
       await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
-      // تحديث الحالة المحلية بدلاً من إعادة تحميل الصفحة
       setCvList((prevCvList) => prevCvList.filter((cv) => cv.id !== id));
     } catch (err) {
       console.log(err);
@@ -30,10 +43,8 @@ const Welcome = ({ username }) => {
   };
 
   useEffect(() => {
-    // التحقق من تسجيل الدخول عند تحميل المكون
     const isLoggedIn = Cookies.get('isLoggedIn');
     if (isLoggedIn !== 'true') {
-      // إذا لم يكن مسجل الدخول، قم بتوجيه المستخدم إلى صفحة تسجيل الدخول
       navigate('/emp');
     }
   }, [navigate]);
@@ -46,23 +57,26 @@ const Welcome = ({ username }) => {
   const handleLogout = () => {
     Cookies.remove('isLoggedIn');
     setIsLoggedIn(false);
-    // يمكنك توجيه المستخدم إلى صفحة تسجيل الخروج أو أي صفحة أخرى بعد تسجيل الخروج
     navigate('/emp');
   };
 
   return (
     <div className={style.all}>
+      <div className={style.btn}>
+      <button onClick={changeEn}>EN</button>
+      <button onClick={changeFr}>AR</button>
+       </div>
     <div className={style.tablee}>
     <div className={style.hh}>
-        <h1 className={style.h1}>Welcome</h1>
-    <button onClick={handleLogout}>Logout</button>
+        <h1 className={style.h1}>{t("hello")}</h1>
+    <button onClick={handleLogout}>{t("Logout")}</button>
         </div>
       <table>
         <thead>
           <tr>
-          <th>name</th>
-          <th>CV</th>
-          <th>Delete</th>
+          <th>{t("username")}</th>
+          <th>{t("CV")}</th>
+          <th>{t("Delete")}</th>
           </tr>
         </thead>
         <tbody>
@@ -74,10 +88,10 @@ const Welcome = ({ username }) => {
                  href={`data:application/pdf;base64,${cv.cv}`}
                  download={`${cv.name}_cv.pdf`}
                >
-                 Download CV
+                {t(" Download CV")}
                </a>
              </td>
-             <td><button onClick={() => handleRemove(cv.id)}>delete</button></td>
+             <td><button onClick={() => handleRemove(cv.id)}>{t("delete")}</button></td>
            </tr>
           ))}
         </tbody>

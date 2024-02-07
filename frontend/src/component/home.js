@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react'
 import { NavLink,useNavigate} from 'react-router-dom'
 import Cookies from 'js-cookie';
-import '../App.css'
 function Home() {
   const navigate = useNavigate();
 

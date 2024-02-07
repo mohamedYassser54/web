@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import style from'./css/css.module.css';
@@ -8,6 +10,14 @@ const Cv = () => {
     cv: null, 
   });
   const { t, i18n } = useTranslation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  useEffect(()=>{
+    const isLoggedIn =Cookies.get("isLoggedIn");
+    if(isLoggedIn !== "true"){
+      navigate("/signin")
+    }
+  })
   
   const handleChange = (e) => {
     const { name, value, files } = e.target;

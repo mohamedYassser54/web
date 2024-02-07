@@ -22,3 +22,13 @@
 .link{
     margin-left: 20px;
 }
+
+.navbar button{
+    border: none;
+    margin-left: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    text-align: center;
+    background: rgb(238, 161, 17);
+    color: #fff;
+}
