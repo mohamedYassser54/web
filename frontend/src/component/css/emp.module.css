@@ -19,7 +19,7 @@
     margin-top: 90px;
 }
 .tablee{
-   width: 90%;
+   width: 95%;
    margin-top: 50px;
     background: #fff5;
     backdrop-filter: blur(7px);
@@ -62,8 +62,12 @@ tr{
 }
 
 td{
+    width: 100%;
     font-size: 15px;
     border-bottom: 1px solid #500c7f;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     
 }
 
@@ -74,10 +78,31 @@ a{
 td button{
    background: #500c7f;
    color: #fff;
-   width: 90%;
+   width:200px;
    border: none;
    border-radius: 10px;
    padding: 5px;
    cursor: pointer;
 }
+td a{
+    text-decoration: none;
+    color: #500c7f;
+}
 
+@media(max-width:601px){
+    td button{
+        background: #500c7f;
+        color: #fff;
+        width:100px;
+        border: none;
+        border-radius: 10px;
+        padding: 5px;
+        cursor: pointer;
+     }
+     td p{
+        font-size: 13px;
+     }
+     td a{
+        font-size: 15px;
+    }
+}
