@@ -160,7 +160,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get', isAuthenticated, (req, res) => {
+app.get('/get', (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
@@ -169,7 +169,6 @@ app.get('/get', isAuthenticated, (req, res) => {
 
     const formattedData = data.map((item) => ({
       id: item.id,
-      email: item.email,
       name: item.name,
       cv: item.cv.toString('base64'),
     }));
