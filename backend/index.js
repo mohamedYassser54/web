@@ -16,7 +16,11 @@ dotenv.config()
 app.use(cors({
   origin: 'https://web-beta-woad.vercel.app',
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Length'],
 }));
+
 
 const isAuthenticated = (req, res, next) => {
   const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true'; // Check if req.cookies is defined
