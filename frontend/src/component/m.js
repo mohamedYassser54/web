@@ -24,16 +24,12 @@ const Welcome = ({ username }) => {
 
 
 
-   const fetchData = async () => {
+  const fetchData = async () => {
     try {
-      const response = await axios.get('https://server-three-mauve-23.vercel.app/get', { withCredentials: true });
+      const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
       setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
-      if (error.response) {
-        console.error('Response status:', error.response.status);
-        console.error('Response data:', error.response.data);
-      }
     }
   };
 
@@ -62,7 +58,6 @@ const Welcome = ({ username }) => {
     Cookies.remove('isLoggedIn');
     setIsLoggedIn(false);
     navigate('/emp');
-    window.location.reload();
   };
 
   return (
@@ -80,7 +75,6 @@ const Welcome = ({ username }) => {
         <thead>
           <tr>
           <th>{t("username")}</th>
-          <th>{t("email")}</th>
           <th>{t("CV")}</th>
           <th>{t("Delete")}</th>
           </tr>
@@ -89,7 +83,6 @@ const Welcome = ({ username }) => {
           {cvList.map((cv) => (
              <tr key={cv.id}>
              <td><p>{cv.name}</p></td>
-             <td><p>{cv.email}</p></td>
              <td>
                <a
                  href={`data:application/pdf;base64,${cv.cv}`}
