@@ -160,7 +160,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get', (req, res) => {
+app.get('/get', isAuthenticated, (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
