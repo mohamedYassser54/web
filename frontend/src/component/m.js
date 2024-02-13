@@ -24,15 +24,19 @@ const Welcome = ({ username }) => {
 
 
 
-  const fetchData = async () => {
+   const fetchData = async () => {
     try {
-      const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
+      const response = await axios.get('  https://server-three-mauve-23.vercel.app/get', { withCredentials: true });
       setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
+      if (error.response) {
+        console.error('Response status:', error.response.status);
+        console.error('Response data:', error.response.data);
+      }
     }
   };
-
+  
   const handleRemove = async (id) => {
     try {
       await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
