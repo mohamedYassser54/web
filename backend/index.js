@@ -4,15 +4,28 @@ const mysql = require('mysql');
 const cors = require('cors');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+const dotenv =require( 'dotenv');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 8081;
 app.use(cors()); 
 app.use(bodyParser.json());
+app.use(cookieParser()); 
+dotenv.config()
 app.use(cors({
   origin: 'https://web-beta-woad.vercel.app',
+  credentials: true,
 }));
 
+const isAuthenticated = (req, res, next) => {
+  const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true'; // Check if req.cookies is defined
+  if (isLoggedIn) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+};
 
 app.options('*', cors());
 
@@ -111,30 +124,50 @@ app.post("/loginUser", (req, res) => {
 
 
 
-app.post("/employees", upload.single('cv'), (req, res) => {
-  const sql = "INSERT INTO `employees` (`name`, `cv`) VALUES (?, ?)";
-  const values = [req.body.name, req.file.buffer];
+// employees cv
 
-  db.query(sql, values, (err, result) => {
+app.post("/employees", upload.single('cv'), (req, res) => {
+  const checkIfExistsQuery = "SELECT * FROM employees WHERE email = ?";
+  const sql = "INSERT INTO `employees` (`email`, `name`, `cv`) VALUES (?, ?, ?)";
+  const values = [req.body.email, req.body.name, req.file.buffer];
+
+  // Check if user already exists
+  db.query(checkIfExistsQuery, [req.body.email], (err, result) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ message: "Internal Server Error", error: err.message });
     }
-    return res.status(200).json({ message: "CV added successfully" });
+
+    if (result.length > 0) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    // If user doesn't exist, proceed with the insertion
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ message: "Internal Server Error", error: err.message });
+      }
+      return res.status(200).json({ message: "CV added successfully" });
+    });
   });
-});
+  });
 
 
-app.get("/get", (req, res) => {
-  const sql = "SELECT * FROM `employees`";
+
+// getdata
+app.get('/get', isAuthenticated, (req, res) => {
+  const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
-    if (err) return res.json(err);
+    if (err) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
 
-    
     const formattedData = data.map((item) => ({
       id: item.id,
+      email: item.email,
       name: item.name,
-      cv: item.cv.toString('base64'), 
+      cv: item.cv.toString('base64'),
     }));
 
     return res.json(formattedData);
@@ -175,22 +208,21 @@ app.delete("/remove/:id",(req,res)=>{
 })
 
 app.post('/login', (req, res) => {
-  console.log('Received login request:', req.body); // Log the incoming request
-
   const { username, password } = req.body;
-  db.query('SELECT * FROM `login` WHERE username = ? AND password = ?', [username, password], (err, results) => {
+  db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
     if (err) {
-      console.error('Database query error:', err);
-      res.json({ success: false, message: 'An error occurred on the server' });
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+    if (results.length > 0) {
+      res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) }); // Set the isLoggedIn cookie
+      res.json({ success: true, message: 'Login successful' });
     } else {
-      if (results.length > 0) {
-        res.json({ success: true, message: 'Login successful' });
-      } else {
-        res.json({ success: false, message: 'Invalid credentials' });
-      }
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
   });
 });
+
 
 
 

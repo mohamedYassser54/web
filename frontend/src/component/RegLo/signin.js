@@ -51,6 +51,9 @@ function Signin() {
         alert("Data is correct");
         setLogin(true);
         Cookies.set('login', true, { expires: 1 / 24 });
+        Cookies.set('email', formData.email, { expires: 1 / 24 });
+        setLogin(true);
+        
         navigate("/");
       } else {
         alert("Wrong password or email");

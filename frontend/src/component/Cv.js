@@ -7,6 +7,7 @@ import style from'./css/css.module.css';
 const Cv = () => {
   const [cvName, setCvName] = useState({
     name: '',
+    email:'',
     cv: null, 
   });
   const { t, i18n } = useTranslation();
@@ -32,19 +33,25 @@ const Cv = () => {
     const formData = new FormData();
     formData.append('name', cvName.name);
     formData.append('cv', cvName.cv);
-  
+    formData.append('email', Cookies.get('email'));
+
     try {
         const response = await axios.post('https://server-three-mauve-23.vercel.app/employees', formData);
         if (response.status === 200) {
           alert('CV has been added successfully');
           
           setCvName({ username: '', cv: null });
+          window.location.reload()
         } else {
           alert('Failed to add CV. Please try again.');
         }
       } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to add CV. Please try again.');
+        if (error.response && error.response.status === 400) {
+          alert('User already exists. Please use a different email address.');
+        } else {
+          console.error('Error:', error);
+          alert('Failed to add CV. Please try again.');
+        }
       }
       
   };

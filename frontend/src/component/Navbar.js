@@ -25,6 +25,7 @@ const  NavBar = () => {
       Cookies.remove("login");
       setLogin(false);
       navigate('/signin');
+    window.location.reload();
     }
   return (
 
