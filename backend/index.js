@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cookieParser()); 
 dotenv.config()
 app.use(cors({
-  origin: 'https://server-three-mauve-23.vercel.app/',
+  origin: 'https://web-beta-woad.vercel.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   headers: ['Content-Type', 'Authorization'],
@@ -219,7 +219,8 @@ app.post('/login', (req, res) => {
     }
 
     if (results.length > 0) {
-      res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) }); // Set the isLoggedIn cookie
+      // Set the isLoggedIn cookie upon successful login
+      res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
       res.json({ success: true, message: 'Login successful' });
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
