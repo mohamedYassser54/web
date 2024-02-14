@@ -6,6 +6,7 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = 8081;
 app.use(cors()); 
@@ -159,13 +160,18 @@ app.post("/employees", upload.single('cv'), (req, res) => {
   });
 
 
+  const checkLoggedIn = (req, res, next) => {
+    if (req.cookies.isLoggedIn) {
+      // المستخدم مسجل الدخول، يمكنه الوصول إلى البيانات
+      next();
+    } else {
+      // المستخدم ليس مسجل الدخول، يتم رفض الوصول
+      res.status(401).json({ success: false, message: 'Unauthorized access' });
+    }
+  };
 
 // getdata
-app.get('/get', async  (req, res) => {
-  if (!req.headers.cookie || !req.headers.cookie.includes('isLoggedIn=true')) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-  try{
+app.get('/get', checkLoggedIn ,(req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
@@ -181,9 +187,6 @@ app.get('/get', async  (req, res) => {
 
     return res.json(formattedData);
   });
-} catch(err){
-  return res.status(500).json({ message: 'Internal Server Error' });
-}
 });
 
 
