@@ -36,7 +36,7 @@ const Cv = () => {
     formData.append('email', Cookies.get('email'));
 
     try {
-        const response = await axios.post('https://server-three-mauve-23.vercel.app/employees', formData);
+        const response = await axios.post('https://server2-chi-seven.vercel.app/employees', formData);
         if (response.status === 200) {
           alert('CV has been added successfully');
           

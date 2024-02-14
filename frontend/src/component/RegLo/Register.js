@@ -29,7 +29,7 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('https://server-three-mauve-23.vercel.app/signup', formData)
+    axios.post('https://server2-chi-seven.vercel.app/signup', formData)
       .then((res) => {
         console.log(res.data);
         if (res.data && res.data.Message === "User already exists") {
