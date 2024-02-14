@@ -163,10 +163,15 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 // getdata
 app.get('/get', (req, res) => {
-  const sql = 'SELECT * FROM `employees` WHERE password = ? AND name = ?';
-  const values = ['s2as2', 'hr'];
+  const { name } = req.query; // Assuming the name is provided as a query parameter
 
-  db.query(sql, values, (err, data) => {
+  if (!name) {
+    return res.status(400).json({ message: 'Name parameter is required' });
+  }
+
+  const sql = 'SELECT * FROM `employees` WHERE name = ?';
+
+  db.query(sql, [name], (err, data) => {
     if (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -181,6 +186,7 @@ app.get('/get', (req, res) => {
     return res.json(formattedData);
   });
 });
+
 
 
 
@@ -217,21 +223,32 @@ app.delete("/remove/:id",(req,res)=>{
 })
 
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
+  const { email, password } = req.body;
+  const sql = 'SELECT * FROM `employees` WHERE email = ? AND password = ?';
+
+  db.query(sql, [email, password], (err, data) => {
     if (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
 
-    if (results.length > 0) {
+    if (data.length > 0) {
       // Set the isLoggedIn cookie upon successful login
       res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
-      res.json({ success: true, message: 'Login successful' });
+
+      const formattedData = data.map((item) => ({
+        id: item.id,
+        email: item.email,
+        name: item.name,
+        cv: item.cv.toString('base64'),
+      }));
+
+      res.json({ success: true, message: 'Login successful', userData: formattedData });
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
   });
 });
+
 
 
 
