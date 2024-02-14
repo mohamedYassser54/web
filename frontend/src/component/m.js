@@ -33,7 +33,7 @@ const Welcome = ({ username }) => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
+  };  
   
   
   

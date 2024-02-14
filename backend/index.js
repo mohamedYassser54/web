@@ -17,6 +17,8 @@ dotenv.config()
 app.use(cors({
   origin: 'https://web-beta-woad.vercel.app',  // replace with your client's origin
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 const generateSecretKey = () => {
@@ -165,7 +167,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get', (req, res) => {
+app.get('/get',cors(), (req, res) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -195,7 +197,7 @@ app.get('/get', (req, res) => {
       return res.json(formattedData);
     });
   });
-} , cors());
+} );
 
 
 
