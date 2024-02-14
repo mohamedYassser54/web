@@ -13,13 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser()); 
 dotenv.config()
-app.use(cors({
-  origin: 'https://web-beta-woad.vercel.app',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  headers: ['Content-Type', 'Authorization'],
-  exposedHeaders: ['Content-Length'],
-}));
+app.use(cors());
 
 
 // const isAuthenticated = (req, res, next) => {
@@ -231,10 +225,12 @@ app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Perform authentication logic here
+    // Your authentication logic here
     db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
       if (err) {
-        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        console.error('Error during database query:', err);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+        return;
       }
 
       if (results.length > 0) {
