@@ -22,15 +22,15 @@ app.use(cors({
 }));
 
 
-const isAuthenticated = (req, res, next) => {
-  const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true';
-  console.log('isLoggedIn:', isLoggedIn); // Add this line for debugging
-  if (isLoggedIn) {
-    next();
-  } else {
-    res.status(401).json({ message: 'Unauthorized' });
-  }
-};
+// const isAuthenticated = (req, res, next) => {
+//   const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true';
+//   console.log('isLoggedIn:', isLoggedIn); // Add this line for debugging
+//   if (isLoggedIn) {
+//     next();
+//   } else {
+//     res.status(401).json({ message: 'Unauthorized' });
+//   }
+// };
 
 
 app.options('*', cors());
@@ -162,7 +162,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get', isAuthenticated, (req, res) => {
+app.get('/get',  (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
