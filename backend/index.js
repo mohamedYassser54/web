@@ -20,6 +20,12 @@ app.use(cors({
   exposedHeaders: ['Content-Length'],
 }));
 
+res.cookie('isLoggedIn', true, { 
+  expires: new Date(Date.now() + 24 * 3600000),
+  httpOnly: true,
+  secure: true, // Use in a production environment with HTTPS
+});
+
 
 // const isAuthenticated = (req, res, next) => {
 //   const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true';
@@ -164,7 +170,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
       next();
     } else {
       // Redirect to login page
-      res.redirect('/get');
+      res.redirect('/login');
     }
   };
   
