@@ -164,9 +164,9 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 // getdata
 app.get('/get', (req, res) => {
   const sql = 'SELECT * FROM `employees` WHERE password = ? AND name = ?';
-  const values = ['s2as2', 'hr'];
+  // const values = ['s2as2', 'hr'];
 
-  db.query(sql, values, (err, data) => {
+  db.query(sql,  (err, data) => {
     if (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
