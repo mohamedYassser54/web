@@ -13,15 +13,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser()); 
 dotenv.config()
-app.use(cors());
-
-const authMiddleware = (req, res, next) => {
-  const user = localStorage.getItem('user');
-  if (!user) {
-    return res.redirect('/login');
-  }
-  next();
-};
+app.use(cors({
+  origin: 'https://web-beta-woad.vercel.app',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Length'],
+}));
 
 
 // const isAuthenticated = (req, res, next) => {
@@ -164,21 +162,25 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get', authMiddleware, (req, res) => {
+app.get('/get',  (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
 
+    if(res.cookie('isLoggedIn')){
     const formattedData = data.map((item) => ({
       id: item.id,
       email: item.email,
       name: item.name,
       cv: item.cv.toString('base64'),
     }));
-
     return res.json(formattedData);
+    }
+    else{
+      return res.status(500).json({ message: 'employees' });
+    }
   });
 });
 
