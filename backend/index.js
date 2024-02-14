@@ -222,32 +222,24 @@ app.delete("/remove/:id",(req,res)=>{
   })
 })
 
-app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  const sql = 'SELECT * FROM `employees` WHERE email = ? AND password = ?';
+app.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const results = await db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password]);
 
-  db.query(sql, [email, password], (err, data) => {
-    if (err) {
-      return res.status(500).json({ message: 'Internal Server Error' });
-    }
-
-    if (data.length > 0) {
+    if (results.length > 0) {
       // Set the isLoggedIn cookie upon successful login
       res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
-
-      const formattedData = data.map((item) => ({
-        id: item.id,
-        email: item.email,
-        name: item.name,
-        cv: item.cv.toString('base64'),
-      }));
-
-      res.json({ success: true, message: 'Login successful', userData: formattedData });
+      res.json({ success: true, message: 'Login successful' });
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
-  });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
 });
+
 
 
 
