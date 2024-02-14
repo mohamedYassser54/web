@@ -169,6 +169,7 @@ app.get('/get', isAuthenticated, (req, res) => {
 
     const formattedData = data.map((item) => ({
       id: item.id,
+      email: item.email,
       name: item.name,
       cv: item.cv.toString('base64'),
     }));

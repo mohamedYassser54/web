@@ -43,8 +43,8 @@ const Welcome = ({ username }) => {
   };
 
   useEffect(() => {
-    const isLoggedIn = Cookies.get('isLoggedIn');
-    if (isLoggedIn !== 'true') {
+    const isLoggedIn = Cookies.get('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
       navigate('/emp');
     }
   }, [navigate]);
@@ -75,6 +75,7 @@ const Welcome = ({ username }) => {
         <thead>
           <tr>
           <th>{t("username")}</th>
+          <th>{t("email")}</th>
           <th>{t("CV")}</th>
           <th>{t("Delete")}</th>
           </tr>
@@ -83,6 +84,7 @@ const Welcome = ({ username }) => {
           {cvList.map((cv) => (
              <tr key={cv.id}>
              <td><p>{cv.name}</p></td>
+             <td><p>{cv.email}</p></td>
              <td>
                <a
                  href={`data:application/pdf;base64,${cv.cv}`}
