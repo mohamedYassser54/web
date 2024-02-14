@@ -26,14 +26,15 @@ const Welcome = ({ username }) => {
 
    const fetchData = async () => {
     try {
-      const token = Cookies.get('token'); // Assuming you store the token in a cookie
+      const token = Cookies.get('token');
       const headers = { Authorization: `Bearer ${token}` };
-      const response = await axios.get('https://server-three-mauve-23.vercel.app/get', { headers });
+      const response = await axios.get('https://server-three-mauve-23.vercel.app/get', { headers, withCredentials: true });
       setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+  
   
 
   const handleRemove = async (id) => {
