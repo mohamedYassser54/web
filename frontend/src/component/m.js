@@ -24,19 +24,15 @@ const Welcome = ({ username }) => {
 
 
 
-   const fetchData = async () => {
+  const fetchData = async () => {
     try {
       const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
-      if (response.status === 200) {
-        setCvList(response.data);
-      } else {
-        console.error('Unexpected response status:', response.status);
-      }
+      setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-  
+
   const handleRemove = async (id) => {
     try {
       await axios.delete(`https://server-three-mauve-23.vercel.app/remove/${id}`);
@@ -78,7 +74,7 @@ const Welcome = ({ username }) => {
       <table>
         <thead>
           <tr>
-          <th>{t("username")}12</th>
+          <th>{t("username")}</th>
           <th>{t("email")}</th>
           <th>{t("CV")}</th>
           <th>{t("Delete")}</th>
