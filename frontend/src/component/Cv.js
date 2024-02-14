@@ -47,7 +47,7 @@ const Cv = () => {
         }
       } catch (error) {
         if (error.response && error.response.status === 400) {
-          alert('User already exists. Please use a different email address.');
+          alert('User already exists.');
         } else {
           console.error('Error:', error);
           alert('Failed to add CV. Please try again.');

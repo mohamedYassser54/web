@@ -93,7 +93,7 @@ const Welcome = ({ username }) => {
                 {t(" Download CV")}
                </a>
              </td>
-             <td><button onClick={() => handleRemove(cv.id)}>{t("delete")}</button></td>
+             <td><button onClick={() => handleRemove(cv.id)}>{t("Delete")}</button></td>
            </tr>
           ))}
         </tbody>
