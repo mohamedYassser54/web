@@ -13,14 +13,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser()); 
 dotenv.config()
-app.use(cors({
+app.use(cors());
+const corsOptions = {
   origin: 'https://web-beta-woad.vercel.app',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  headers: ['Content-Type', 'Authorization'],
-  exposedHeaders: ['Content-Length'],
-}));
-
+};
+app.use(cors(corsOptions));
 const secretKey = crypto.randomBytes(32).toString('hex');
 console.log('Secret Key:', secretKey);
 
