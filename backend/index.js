@@ -6,7 +6,6 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 const app = express();
 const port = 8081;
 app.use(cors()); 
@@ -161,14 +160,16 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
   const checkLoggedIn = (req, res, next) => {
+    console.log('Checking logged in status...');
     if (req.cookies.isLoggedIn) {
-      // المستخدم مسجل الدخول، يمكنه الوصول إلى البيانات
+      console.log('User is logged in.');
       next();
     } else {
-      // المستخدم ليس مسجل الدخول، يتم رفض الوصول
+      console.log('User is not logged in. Access denied.');
       res.status(401).json({ success: false, message: 'Unauthorized access' });
     }
   };
+  
 
 // getdata
 app.get('/get', checkLoggedIn ,(req, res) => {
