@@ -6,7 +6,7 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
-
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = 8081;
 app.use(cors()); 

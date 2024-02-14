@@ -23,7 +23,6 @@ const Welcome = ({ username }) => {
 
 
 
-   
 
   const fetchData = async () => {
     try {
