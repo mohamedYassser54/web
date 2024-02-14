@@ -164,7 +164,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 // getdata
 app.get('/get', (req, res) => {
   const sql = 'SELECT * FROM `employees` WHERE password = ? AND name = ?';
-  const values = ['hr', 's2as2'];
+  const values = ['s2as2', 'hr'];
 
   db.query(sql, values, (err, data) => {
     if (err) {
