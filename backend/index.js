@@ -164,7 +164,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
       next();
     } else {
       // Redirect to login page
-      res.redirect('/login');
+      res.redirect('/get');
     }
   };
   
