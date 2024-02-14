@@ -6,7 +6,6 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 const app = express();
 const port = 8081;
 app.use(cors()); 
@@ -162,26 +161,29 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get',  (req, res) => {
+app.get('/get', async  (req, res) => {
+  if (!req.headers.cookie || !req.headers.cookie.includes('isLoggedIn=true')) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try{
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
 
-    if( res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) })){
     const formattedData = data.map((item) => ({
       id: item.id,
       email: item.email,
       name: item.name,
       cv: item.cv.toString('base64'),
     }));
+
     return res.json(formattedData);
-    }
-    else{
-      return res.status(500).json({ message: 'Just employees' });
-    }
   });
+} catch(err){
+  return res.status(500).json({ message: 'Internal Server Error' });
+}
 });
 
 
