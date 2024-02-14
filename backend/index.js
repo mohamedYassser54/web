@@ -169,7 +169,7 @@ app.get('/get',  (req, res) => {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
 
-    if(res.cookie('isLoggedIn')){
+    if( res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) })){
     const formattedData = data.map((item) => ({
       id: item.id,
       email: item.email,
@@ -179,7 +179,7 @@ app.get('/get',  (req, res) => {
     return res.json(formattedData);
     }
     else{
-      return res.status(500).json({ message: 'employees' });
+      return res.status(500).json({ message: 'Just employees' });
     }
   });
 });
