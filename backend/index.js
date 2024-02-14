@@ -13,7 +13,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser()); 
 dotenv.config()
-app.use(cors());
+app.use(cors({
+  origin: 'https://web-beta-woad.vercel.app',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Length'],
+}));
 
 
 // const isAuthenticated = (req, res, next) => {
@@ -25,19 +31,6 @@ app.use(cors());
 //     res.status(401).json({ message: 'Unauthorized' });
 //   }
 // };
-
-
-const authenticateUser = (req, res, next) => {
-  const isLoggedIn = req.cookies.isLoggedIn === 'true';
-
-  if (isLoggedIn) {
-    // User is authenticated, proceed to the next middleware or route handler
-    next();
-  } else {
-    // User is not authenticated, send a 401 Unauthorized response
-    res.status(401).json({ success: false, message: 'Unauthorized' });
-  }
-};
 
 
 app.options('*', cors());
@@ -169,7 +162,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get', authenticateUser, (req, res) => {
+app.get('/get',  (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
@@ -186,7 +179,6 @@ app.get('/get', authenticateUser, (req, res) => {
     return res.json(formattedData);
   });
 });
-
 
 
 // m
@@ -221,33 +213,22 @@ app.delete("/remove/:id",(req,res)=>{
   })
 })
 
-app.post('/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
 
-    // Your authentication logic here
-    db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
-      if (err) {
-        console.error('Error during database query:', err);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
-        return;
-      }
-
-      if (results.length > 0) {
-        // Authentication successful, set the isLoggedIn cookie
-        res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
-        res.json({ success: true, message: 'Login successful' });
-      } else {
-        // Authentication failed, send a 401 Unauthorized response
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
-      }
-    });
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
+    if (results.length > 0) {
+      // Set the isLoggedIn cookie upon successful login
+      res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
+      res.json({ success: true, message: 'Login successful' });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+  });
 });
-
 
 
 
