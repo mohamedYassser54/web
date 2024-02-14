@@ -177,6 +177,7 @@ app.get('/get', (req, res) => {
 
   jwt.verify(token, secretKey, (err, decoded) => {
     if (err) {
+      console.error('JWT Verification Error:', err);
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
