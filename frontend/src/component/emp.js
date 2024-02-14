@@ -27,19 +27,31 @@ function Emp() {
     try {
       const response = await axios.post('https://server-three-mauve-23.vercel.app/login', { username, password });
       const responseData = response.data;
-
+  
       if (responseData.success) {
         setIsLoggedIn(true);
-        Cookies.set('isLoggedIn', true, { expires: 1/24 });
+  
+        // Calculate cookie expiration time (1 hour)
+        const expirationTime = new Date(Date.now() + 1 * 60 * 60 * 1000);
+        Cookies.set('isLoggedIn', true, { expires: expirationTime });
+  
+        // Redirect to the '/m' route
         navigate('/m');
       } else {
         alert('Invalid credentials');
       }
     } catch (error) {
       console.error('Error during login:', error);
-      alert('An error occurred during login');
+  
+      // Check specific error conditions and display appropriate messages
+      if (error.response && error.response.status === 404) {
+        alert('Login endpoint not found. Please try again later.');
+      } else {
+        alert('An error occurred during login. Please try again later.');
+      }
     }
   };
+  
 
   return (
     <div className={`${style.container}`}>
