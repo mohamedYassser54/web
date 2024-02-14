@@ -172,11 +172,12 @@ app.post("/employees", upload.single('cv'), (req, res) => {
   
 
 // getdata
-app.get('/get', checkLoggedIn ,(req, res) => {
+app.get('/get', checkLoggedIn, (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
-      return res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error fetching data from database:', err);
+      return res.status(500).json({ message: 'Error fetching data from database', error: err.message });
     }
 
     const formattedData = data.map((item) => ({
@@ -189,6 +190,7 @@ app.get('/get', checkLoggedIn ,(req, res) => {
     return res.json(formattedData);
   });
 });
+
 
 
 // m
