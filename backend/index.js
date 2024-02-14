@@ -160,15 +160,14 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
   const checkLoggedIn = (req, res, next) => {
-    console.log('Checking logged in status...');
     if (req.cookies.isLoggedIn) {
-      console.log('User is logged in.');
       next();
     } else {
-      console.log('User is not logged in. Access denied.');
-      res.status(401).json({ success: false, message: 'Unauthorized access' });
+      // Redirect to login page
+      res.redirect('/login');
     }
   };
+  
   
 
 // getdata
