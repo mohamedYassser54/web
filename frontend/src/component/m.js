@@ -78,7 +78,7 @@ const Welcome = ({ username }) => {
       <table>
         <thead>
           <tr>
-          <th>{t("username")}6</th>
+          <th>{t("username")}7</th>
           <th>{t("email")}</th>
           <th>{t("CV")}</th>
           <th>{t("Delete")}</th>
