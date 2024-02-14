@@ -6,39 +6,31 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
+
 const app = express();
 const port = 8081;
 app.use(cors()); 
 app.use(bodyParser.json());
 app.use(cookieParser()); 
 dotenv.config()
-app.use(cors());
-const corsOptions = {
+app.use(cors({
   origin: 'https://web-beta-woad.vercel.app',
   credentials: true,
-};
-app.use(cors(corsOptions));
-const secretKey = crypto.randomBytes(32).toString('hex');
-console.log('Secret Key:', secretKey);
-
-const isAuthenticated = (req, res, next) => {
-  const token = req.headers.authorization;
-
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, secretKey);
-      req.user = decoded; // Attach decoded user information to the request
-      next();
-    } catch (error) {
-      res.status(401).json({ message: 'Unauthorized' });
-    }
-  } else {
-    res.status(401).json({ message: 'Unauthorized' });
-  }
-};
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Length'],
+}));
 
 
+// const isAuthenticated = (req, res, next) => {
+//   const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true';
+//   console.log('isLoggedIn:', isLoggedIn); // Add this line for debugging
+//   if (isLoggedIn) {
+//     next();
+//   } else {
+//     res.status(401).json({ message: 'Unauthorized' });
+//   }
+// };
 
 
 app.options('*', cors());
@@ -170,15 +162,7 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get', isAuthenticated, (req, res) => {
-  // Access user information from req.user
-  const userData = {
-    id: req.user.id,
-    username: req.user.username,
-    // Add other user data as needed
-  };
-
-  // Replace this with actual database query
+app.get('/get',  (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
@@ -192,9 +176,10 @@ app.get('/get', isAuthenticated, (req, res) => {
       cv: item.cv.toString('base64'),
     }));
 
-    res.json({ userData, formattedData });
+    return res.json(formattedData);
   });
 });
+
 
 // m
 // app.get("/m", (req, res) => {
@@ -237,9 +222,8 @@ app.post('/login', (req, res) => {
 
     if (results.length > 0) {
       // Set the isLoggedIn cookie upon successful login
-      const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
       res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
-      res.json({ success: true, message: 'Login successful', token });
+      res.json({ success: true, message: 'Login successful' });
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
     }

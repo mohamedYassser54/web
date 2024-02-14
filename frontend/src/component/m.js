@@ -26,15 +26,16 @@ const Welcome = ({ username }) => {
 
    const fetchData = async () => {
     try {
-      const response = await axios.get('https://server-three-mauve-23.vercel.app/get', {
-        withCredentials: true,
-      });
-      setCvList(response.data);
+      const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
+      if (response.status === 200) {
+        setCvList(response.data);
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-  
   
   const handleRemove = async (id) => {
     try {
@@ -77,7 +78,7 @@ const Welcome = ({ username }) => {
       <table>
         <thead>
           <tr>
-          <th>{t("username")}4</th>
+          <th>{t("username")}6</th>
           <th>{t("email")}</th>
           <th>{t("CV")}</th>
           <th>{t("Delete")}</th>
