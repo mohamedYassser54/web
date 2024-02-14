@@ -21,6 +21,14 @@ app.use(cors({
   exposedHeaders: ['Content-Length'],
 }));
 
+const authMiddleware = (req, res, next) => {
+  const user = localStorage.getItem('user');
+  if (!user) {
+    return res.redirect('/login');
+  }
+  next();
+};
+
 
 // const isAuthenticated = (req, res, next) => {
 //   const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true';
@@ -162,28 +170,22 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get',  (req, res) => {
-  const { username, password } = req.body;
-  db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
-  if(results.length > 0){
-    const sql = 'SELECT * FROM `employees`';
-    db.query(sql, (err, data) => {
-      if (err) {
-        return res.status(500).json({ message: 'Internal Server Error' });
-      }
-  
-      const formattedData = data.map((item) => ({
-        id: item.id,
-        email: item.email,
-        name: item.name,
-        cv: item.cv.toString('base64'),
-      }));
-  
-      return res.json(formattedData);
-    });
-  }
- 
-});
+app.get('/get', authMiddleware, (req, res) => {
+  const sql = 'SELECT * FROM `employees`';
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+    const formattedData = data.map((item) => ({
+      id: item.id,
+      email: item.email,
+      name: item.name,
+      cv: item.cv.toString('base64'),
+    }));
+
+    return res.json(formattedData);
+  });
 });
 
 
@@ -219,7 +221,6 @@ app.delete("/remove/:id",(req,res)=>{
   })
 })
 
-// login
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
