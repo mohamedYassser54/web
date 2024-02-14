@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cookieParser()); 
 dotenv.config()
 app.use(cors({
-  origin: 'https://web-beta-woad.vercel.app',
+  origin: 'https://web2-rho-swart.vercel.app/',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   headers: ['Content-Type', 'Authorization'],
