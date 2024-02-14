@@ -26,7 +26,7 @@ const Welcome = ({ username }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://server-three-mauve-23.vercel.app/get', { withCredentials: true });
+      const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
       setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -74,7 +74,7 @@ const Welcome = ({ username }) => {
       <table>
         <thead>
           <tr>
-          <th>{t("username")}1</th>
+          <th>{t("username")}</th>
           <th>{t("email")}</th>
           <th>{t("CV")}</th>
           <th>{t("Delete")}</th>

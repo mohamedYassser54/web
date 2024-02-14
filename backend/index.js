@@ -6,6 +6,7 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = 8081;
 app.use(cors()); 
@@ -19,12 +20,6 @@ app.use(cors({
   headers: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Length'],
 }));
-
-res.cookie('isLoggedIn', true, { 
-  expires: new Date(Date.now() + 24 * 3600000),
-  httpOnly: true,
-  secure: true, // Use in a production environment with HTTPS
-});
 
 
 // const isAuthenticated = (req, res, next) => {
@@ -165,24 +160,13 @@ app.post("/employees", upload.single('cv'), (req, res) => {
   });
 
 
-  const checkLoggedIn = (req, res, next) => {
-    if (req.cookies.isLoggedIn) {
-      next();
-    } else {
-      // Redirect to login page
-      res.redirect('/login');
-    }
-  };
-  
-  
 
 // getdata
-app.get('/get', checkLoggedIn, (req, res) => {
+app.get('/get',  (req, res) => {
   const sql = 'SELECT * FROM `employees`';
   db.query(sql, (err, data) => {
     if (err) {
-      console.error('Error fetching data from database:', err);
-      return res.status(500).json({ message: 'Error fetching data from database', error: err.message });
+      return res.status(500).json({ message: 'Internal Server Error' });
     }
 
     const formattedData = data.map((item) => ({
@@ -195,7 +179,6 @@ app.get('/get', checkLoggedIn, (req, res) => {
     return res.json(formattedData);
   });
 });
-
 
 
 // m
