@@ -6,7 +6,8 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
-
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const app = express();
 const port = 8081;
 app.use(cors()); 
@@ -21,6 +22,11 @@ app.use(cors({
   exposedHeaders: ['Content-Length'],
 }));
 
+const generateSecretKey = () => {
+  return crypto.randomBytes(32).toString('hex');
+};
+const secretKey = generateSecretKey();
+console.log(generateSecretKey());
 
 // const isAuthenticated = (req, res, next) => {
 //   const isLoggedIn = req.cookies && req.cookies.isLoggedIn === 'true';
@@ -162,23 +168,37 @@ app.post("/employees", upload.single('cv'), (req, res) => {
 
 
 // getdata
-app.get('/get',  (req, res) => {
-  const sql = 'SELECT * FROM `employees`';
-  db.query(sql, (err, data) => {
+app.get('/get', (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
     if (err) {
-      return res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const formattedData = data.map((item) => ({
-      id: item.id,
-      email: item.email,
-      name: item.name,
-      cv: item.cv.toString('base64'),
-    }));
+    // If the token is valid, proceed with fetching data
+    const sql = 'SELECT * FROM `employees`';
+    db.query(sql, (err, data) => {
+      if (err) {
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
 
-    return res.json(formattedData);
+      const formattedData = data.map((item) => ({
+        id: item.id,
+        email: item.email,
+        name: item.name,
+        cv: item.cv.toString('base64'),
+      }));
+
+      return res.json(formattedData);
+    });
   });
 });
+
 
 
 // m
@@ -215,14 +235,18 @@ app.delete("/remove/:id",(req,res)=>{
 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
+
   db.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], (err, results) => {
     if (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
 
     if (results.length > 0) {
-      // Set the isLoggedIn cookie upon successful login
-      res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
+      const token = jwt.sign({ username }, secretKey, { expiresIn: '24h' });
+
+      // Set the token in the response header and as a cookie
+      res.header('Authorization', `Bearer ${token}`);
+      res.cookie('token', token, { httpOnly: true });
       res.json({ success: true, message: 'Login successful' });
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
