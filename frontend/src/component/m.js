@@ -24,19 +24,14 @@ const Welcome = ({ username }) => {
 
 
 
-   const fetchData = async () => {
+  const fetchData = async () => {
     try {
-      const token = Cookies.get('token');
-      const headers = { Authorization: `Bearer ${token}` };
-      const response = await axios.get('https://server-three-mauve-23.vercel.app/get', { headers, withCredentials: true });
+      const response = await axios.get('https://server-three-mauve-23.vercel.app/get');
       setCvList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };  
-  
-  
-  
+  };
 
   const handleRemove = async (id) => {
     try {
