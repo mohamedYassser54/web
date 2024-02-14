@@ -232,13 +232,14 @@ app.post('/login', async (req, res) => {
       res.cookie('isLoggedIn', true, { expires: new Date(Date.now() + 24 * 3600000) });
       res.json({ success: true, message: 'Login successful' });
     } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
+      res.status(401).json({ success: false, message: 'Invalid username or password' });
     }
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
+
 
 
 
