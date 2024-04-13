@@ -2,10 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
+const path = require('path');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 const dotenv =require( 'dotenv');
 const cookieParser = require('cookie-parser');
+
 
 const app = express();
 const port = 8081;
@@ -38,9 +40,19 @@ app.options('*', cors());
 app.use(express.json());
 
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 
 
 const db = mysql.createPool({
@@ -61,7 +73,26 @@ app.get("/", (req, res) => {
 });
 
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.post('/upload', upload.single('image'), (req, res) => {
+  const { filename, path } = req.file;
+  const { title, price, description } = req.body; // Destructure the body object
+
+  // Prepare SQL query to insert data into the images table
+  const sql = 'INSERT INTO images (filename, path, title, price, description) VALUES (?, ?, ?, ?, ?)';
+  const values = [filename, path, title, price, description]; // Include all values in the array
+
+  // Execute the SQL query
+  db.query(sql, values, (err, result) => {
+      if (err) {
+          console.error("Error inserting into database:", err);
+          res.status(500).send('Internal server error');
+          return;
+      }
+      res.send('Image uploaded successfully.');
+  });
+});
 
 
 // sigup
