@@ -21,6 +21,8 @@
     "cv":"cv",
     "username":"username",
     "Download CV": "Download CV",
-    "email":"email"
+    "email":"email",
+
+    "addCV":"Add a CV"
 
 }

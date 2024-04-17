@@ -1,0 +1,32 @@
+.allcompany{
+    margin-top: 100px;
+}
+.sochial{
+    display: flex;
+}
+
+.cards{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    background: #f2f3f7;
+    padding-right: 10px;
+    border-radius: 10px;
+}
+.sochial img{
+    width: 30px;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+.sochial img:hover{
+    transform:scale(1.1) ;
+}
+.image{
+    display: flex;
+    align-items: center;
+} 
+.image img{
+    width: 100px;
+}

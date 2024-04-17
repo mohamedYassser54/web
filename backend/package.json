@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.jsx"
   },
   "author": "",
   "license": "ISC",
@@ -16,17 +16,23 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
-    "dotenv": "^16.4.4",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "express-session": "^1.18.0",
+    "express-validator": "^7.0.1",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
+    "mysql2": "^3.9.4",
+    "mysql2-promise": "^0.1.4",
+    "nodemailer": "^6.9.9",
     "nodemon": "^3.0.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "Router": "^2.1.0",
     "stormtech-authmiddleware": "^1.0.1"
   }
 }
