@@ -29,6 +29,9 @@ var upload = multer({
     fileFilter:isImage
 })
 
+router.get("/", (req, res) => {
+  return res.json("backend");
+});
 
 
 // register userdata
