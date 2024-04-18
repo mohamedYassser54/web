@@ -13,7 +13,7 @@ const Home = () => {
     const [show, setShow] = useState(false);
 
     const getUserData = async () => {
-        const res = await axios.get("http://localhost:8004/getdata", {
+        const res = await axios.get("server-three-mauve-23.vercel.app/getdata", {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -31,7 +31,7 @@ const Home = () => {
 
     const dltUser = async (id) => {
         console.log(id)
-        const res = await axios.delete(`http://localhost:8004/${id}`, {
+        const res = await axios.delete(`server-three-mauve-23.vercel.app/${id}`, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -69,7 +69,7 @@ const Home = () => {
                             return (
                                 <>
                                     <Card style={{ width: '22rem', height: "18rem" }} className="mb-3">
-                                        <Card.Img variant="top" src={`http://localhost:8004/uploads/${el.userimg}`} style={{ width: '100px', textAlign: "center", margin: "auto" }} className="mt-2" />
+                                        <Card.Img variant="top" src={`server-three-mauve-23.vercel.app/uploads/${el.userimg}`} style={{ width: '100px', textAlign: "center", margin: "auto" }} className="mt-2" />
                                         <Card.Body className='text-center'>
                                             <Card.Title>UserName : {el.username}</Card.Title>
                                             <Card.Text>
