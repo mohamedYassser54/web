@@ -34,5 +34,9 @@
     "path": "^0.12.7",
     "Router": "^2.1.0",
     "stormtech-authmiddleware": "^1.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "npm-run-all": "^4.1.5"
   }
 }
