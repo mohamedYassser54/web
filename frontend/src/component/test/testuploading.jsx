@@ -35,7 +35,8 @@ const Register = () => {
         const res = await axios.post("server-three-mauve-23.vercel.app/register",formData,config);
        
         if(res.data.status == 201){
-            history("/")
+            // history("/")
+            console.log(res.data);
         }else{
             console.log("error")
         }

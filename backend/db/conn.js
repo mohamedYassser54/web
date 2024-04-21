@@ -1,6 +1,5 @@
 const mysql = require("mysql2");
 
-
 const conn = mysql.createPool({
   host:process.env.DB_HOST,
   user:process.env.DB_USERNAME,
@@ -11,10 +10,9 @@ const conn = mysql.createPool({
   queueLimit:0
 })
 
-
 conn.connect((error)=>{
     if(error) throw error;
-    console.log("connected !")
+    console.log("connected!")
 });
 
-module.exports = conn
+module.exports = conn;
