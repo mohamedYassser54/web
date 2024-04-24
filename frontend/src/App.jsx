@@ -34,7 +34,7 @@ const Test  = lazy(()=> import('./component/test'))
 const  TestHome = lazy(()=> import('./component/test/testHome'))
 const  Testuploading = lazy(()=> import('./component/test/testuploading'))
 
-const  TestVR = lazy(()=> import('./component/testVR'))
+// const  TestVR = lazy(()=> import('./component/testVR'))
 function App() {
   return (
     <BrowserRouter>
@@ -59,14 +59,16 @@ function App() {
         </div>
         </React.Suspense>
         }/>
-        <Route path='/TestVR' element={
+
+        {/* <Route path='/TestVR' element={
           <React.Suspense fallback={<Loading/>}>
           <div>
-         {/* <Navbar/> */}
+        //  
         <TestVR/>
         </div>
         </React.Suspense>
-        }/>
+        }/> */}
+
         <Route path='/TestHome' element={
           <React.Suspense fallback={<Loading/>}>
           <div>
